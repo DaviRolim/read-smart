@@ -9,8 +9,6 @@ import 'package:read_smart/repository/highlights_repository.dart';
 import '../models/Book.dart';
 import '../models/Failure.dart';
 
-enum NotifierState { initial, loading, loaded }
-
 class HighlightsProvider extends ChangeNotifier {
   final _highlightRepository = HighlightRepository();
   List<QueryDocumentSnapshot<Book>>? _highlights;
@@ -24,18 +22,13 @@ class HighlightsProvider extends ChangeNotifier {
 
   void fetchHighlghts() {
     print('fetchHighlights -> $userID');
-    Query<Book> booksRef = _highlightRepository.getUserBooks('Davi Holanda');
+    Query<Book> booksRef = _highlightRepository.getUserBooks(userID);
     booksRef.snapshots().listen((event) {
       _highlights = event.docs;
+      print(event.docs[0].data());
       notifyListeners();
     });
   }
-
-  void _setState(NotifierState state) {
-    _state = state;
-    notifyListeners();
-  }
-
 
   static final highlightsProvider =
       ChangeNotifierProvider<HighlightsProvider>((ref) {
