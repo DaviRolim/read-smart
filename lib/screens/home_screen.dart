@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:read_smart/helpers/hider_navbar.dart';
 import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/repository/auth_repository.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/repository/highlights_repository.dart';
+import 'package:read_smart/screens/sync_highlights_screen.dart';
+import 'package:read_smart/widgets/home/home_content.dart';
 
 import '../models/Book.dart';
 
@@ -16,23 +19,33 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // "ref" can be used in all life-cycles of a StatefulWidget.
-  //    ref.watch(HighlightsProvider.highlightsProvider);
+  int _selectedPageIndex = 0;
+  final HideNavbar hiding = HideNavbar();
+  List<Widget> _pages = [];
+  @override
+  void initState() {
+    _pages = <Widget>[
+      HomeContent(),
+      SyncHighlightsScreen(),
+    ];
+    super.initState();
+  }
 
-  //   print('Chamei');
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final highlights =
-        ref.watch(HighlightsProvider.highlightsProvider).highlights;
-    // print(userID);
-    // final highLightRepository = HighlightRepository();
+   
 
-    // return Container(color: Colors.amber,);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -57,18 +70,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           'Read Smart',
           style: TextStyle(color: Colors.white70),
         ),
-        backgroundColor: Colors.grey[900],
+        backgroundColor: Colors.black87,
       ),
-      backgroundColor: Colors.grey[900],
-      body: highlights.length > 0
-          ? ListView.builder(
-              itemCount: highlights.length,
-              itemBuilder: (_, index) {
-                final book = highlights[index].data();
-                return _buildListItem(context, book);
-              },
-            )
-          : CircularProgressIndicator(),
+      backgroundColor: Colors.black87,
+      body: Container(child: _pages[_selectedPageIndex]),
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: hiding.visible,
+        builder: (context, bool value, child) => AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          height: value ? kBottomNavigationBarHeight : 0.0,
+          child: Wrap(
+            children: [
+              BottomNavigationBar(
+                onTap: _selectPage,
+                elevation: 4,
+                unselectedItemColor: Colors.grey[600],
+                selectedItemColor: Colors.grey[200],
+                currentIndex: _selectedPageIndex,
+                backgroundColor: Colors.grey[900],
+                // showSelectedLabels: false,
+                showUnselectedLabels: true,
+                // type: BottomNavigationBarType.shifting,
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Home'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.sync), label: 'Sync'),
+                 
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
       // floatingActionButton: RedButton(),
       // body: StreamBuilder<QuerySnapshot>(
       //     stream: highlights,
@@ -81,55 +116,3 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 }
 
-// Widget _buildList(BuildContext context, List<DocumentSnapshot>? snapshot) {
-//   return ListView(
-//     padding: const EdgeInsets.only(top: 20.0),
-//     // 2
-//     children: snapshot!.map((data) => _buildListItem(context, data)).toList(),
-//   );
-// }
-
-// 3
-Widget _buildListItem(BuildContext context, Book book) {
-  // 4
-
-  return Card(
-      child: Container(
-    height: 150,
-    width: double.infinity,
-    padding: EdgeInsets.all(10.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      // mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Flexible(
-          child: Image.network(
-            book.imageURL,
-            color: Colors.white.withOpacity(0.8),
-            colorBlendMode: BlendMode.modulate,
-          ),
-        ),
-        Flexible(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              book.title,
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            // SizedBox(height: 15,),
-            Text(
-              book.author,
-              style: TextStyle(color: Colors.white70, fontSize: 14),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        )),
-      ],
-    ),
-  ));
-}
