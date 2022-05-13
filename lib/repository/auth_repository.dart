@@ -11,7 +11,6 @@ class AuthRepository {
   static final authInstance = FirebaseAuth.instance;
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
-    print(email + password);
     var userAuthenticated = false;
     try {
       UserCredential userCredential =
