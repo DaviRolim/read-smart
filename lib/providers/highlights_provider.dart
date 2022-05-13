@@ -21,11 +21,9 @@ class HighlightsProvider extends ChangeNotifier {
   NotifierState get state => _state;
 
   void fetchHighlghts() {
-    print('fetchHighlights -> $userID');
     Query<Book> booksRef = _highlightRepository.getUserBooks(userID);
     booksRef.snapshots().listen((event) {
       _highlights = event.docs;
-      print(event.docs[0].data());
       notifyListeners();
     });
   }

@@ -117,7 +117,6 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
                    child: Text('Sync Highlights'), 
                    onPressed: () {
                      bool isValid = _submissionIsValid();
-                     print(isValid);
                      if (isValid) {
                       ref.read(SyncProvider.syncProvider).syncHighlights(_userEmail, _userPassword);
                      }

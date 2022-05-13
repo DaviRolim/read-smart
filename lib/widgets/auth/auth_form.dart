@@ -140,178 +140,171 @@ class _AuthFormState extends State<AuthForm> {
                     //   //   _userName = value!;
                     //   // },
                     // ),
-                  if (!widget.isLogin)
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       child: TextFormField(
-                    //         key: ValueKey('phone'),
-                    //         textInputAction: TextInputAction.next,
-                    //         controller: _phone,
-                    //         inputFormatters: [phoneFormatter],
-                    //         // validator: (value) {
-                    //         //   // Return string if error and if ok return nothing
-                    //         //   if (value!.isEmpty || value.length < 4) {
-                    //         //     return 'Please anter at least 4 characters.';
-                    //         //   }
-                    //         //   return null;
-                    //         // },
-                    //         keyboardType: TextInputType.number,
-                    //         style: TextStyle(color: Colors.grey[300]),
-                    //         decoration: InputDecoration(
-                    //             labelText: 'Telefone',
-                    //             labelStyle: TextStyle(
-                    //                 color: Colors.grey[600], fontSize: 14)),
-                    //         onSaved: (value) {
-                    //           _userName = value!;
-                    //         },
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 15),
-                    //     Expanded(
-                    //       child: TextFormField(
-                    //         textInputAction: TextInputAction.done,
-                    //         key: ValueKey('datanasc'),
-                    //         controller: _datePicker,
-                    //         inputFormatters: [dateFormatter],
-                    //         keyboardType: TextInputType.number,
-                    //         // validator: (value) {
-                    //         //   // Return string if error and if ok return nothing
-                    //         //   if (value!.isEmpty || value.length < 4) {
-                    //         //     return 'Please anter at least 4 characters.';
-                    //         //   }
-                    //         //   return null;
-                    //         // },
-                    //         style: TextStyle(color: Colors.grey[300]),
-                    //         decoration: InputDecoration(
-                    //           labelText: 'Data nascimento',
-                    //           labelStyle: TextStyle(
-                    //               color: Colors.grey[600], fontSize: 13),
-                    //           suffixIcon: IconButton(
-                    //             onPressed: () {
-                    //               showDatePicker(
-                    //                       context: context,
-                    //                       initialDate: DateTime(1994),
-                    //                       firstDate: DateTime(1920),
-                    //                       lastDate: DateTime(2020))
-                    //                   .then((date) {
-                    //                 var newDate = TextEditingValue(
-                    //                     text:
-                    //                         DateFormat('d/MM/y').format(date!));
+                    if (!widget.isLogin)
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: TextFormField(
+                      //         key: ValueKey('phone'),
+                      //         textInputAction: TextInputAction.next,
+                      //         controller: _phone,
+                      //         inputFormatters: [phoneFormatter],
+                      //         // validator: (value) {
+                      //         //   // Return string if error and if ok return nothing
+                      //         //   if (value!.isEmpty || value.length < 4) {
+                      //         //     return 'Please anter at least 4 characters.';
+                      //         //   }
+                      //         //   return null;
+                      //         // },
+                      //         keyboardType: TextInputType.number,
+                      //         style: TextStyle(color: Colors.grey[300]),
+                      //         decoration: InputDecoration(
+                      //             labelText: 'Telefone',
+                      //             labelStyle: TextStyle(
+                      //                 color: Colors.grey[600], fontSize: 14)),
+                      //         onSaved: (value) {
+                      //           _userName = value!;
+                      //         },
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 15),
+                      //     Expanded(
+                      //       child: TextFormField(
+                      //         textInputAction: TextInputAction.done,
+                      //         key: ValueKey('datanasc'),
+                      //         controller: _datePicker,
+                      //         inputFormatters: [dateFormatter],
+                      //         keyboardType: TextInputType.number,
+                      //         // validator: (value) {
+                      //         //   // Return string if error and if ok return nothing
+                      //         //   if (value!.isEmpty || value.length < 4) {
+                      //         //     return 'Please anter at least 4 characters.';
+                      //         //   }
+                      //         //   return null;
+                      //         // },
+                      //         style: TextStyle(color: Colors.grey[300]),
+                      //         decoration: InputDecoration(
+                      //           labelText: 'Data nascimento',
+                      //           labelStyle: TextStyle(
+                      //               color: Colors.grey[600], fontSize: 13),
+                      //           suffixIcon: IconButton(
+                      //             onPressed: () {
+                      //               showDatePicker(
+                      //                       context: context,
+                      //                       initialDate: DateTime(1994),
+                      //                       firstDate: DateTime(1920),
+                      //                       lastDate: DateTime(2020))
+                      //                   .then((date) {
+                      //                 var newDate = TextEditingValue(
+                      //                     text:
+                      //                         DateFormat('d/MM/y').format(date!));
 
-                    //                 _datePicker.value = newDate;
+                      //                 _datePicker.value = newDate;
 
-                    //                 dateFormatter.formatEditUpdate(
-                    //                     TextEditingValue.empty, newDate);
-                    //                 print(dateFormatter.getMaskedText());
-                    //               });
-                    //             },
-                    //             icon: Icon(
-                    //               Icons.date_range_rounded,
-                    //               color: Colors.white,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         // onSaved: (value) {
-                    //         //   _userName = value!;
-                    //         // },
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          key: ValueKey('password'),
-                          textInputAction: TextInputAction.next,
-                          controller: _pass,
-                          validator: (value) {
-                            // Return string if error and if ok return nothing
-                            if (value!.isEmpty || value.length < 7) {
-                              return 'Password must be at least 7 characters long.';
-                            }
-                            return null;
-                          },
-                          style: TextStyle(color: Colors.grey[300]),
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
-                            labelStyle: TextStyle(
-                                color: Colors.grey[600], fontSize: 14),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  hidePassword = !hidePassword;
-                                });
-                              },
-                              icon: Icon(
-                                hidePassword
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          obscureText: hidePassword,
-                          onFieldSubmitted: (value) {},
-                          onSaved: (value) {
-                            _userPassword = value!;
-                          },
-                        ),
-                      ),
-                      if (!widget.isLogin) SizedBox(width: 15),
-                      if (!widget.isLogin)
-                        Expanded(
-                          child: TextFormField(
-                              controller: _confirmPass,
+                      //                 dateFormatter.formatEditUpdate(
+                      //                     TextEditingValue.empty, newDate);
+                      //                 print(dateFormatter.getMaskedText());
+                      //               });
+                      //             },
+                      //             icon: Icon(
+                      //               Icons.date_range_rounded,
+                      //               color: Colors.white,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         // onSaved: (value) {
+                      //         //   _userName = value!;
+                      //         // },
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              key: ValueKey('password'),
                               textInputAction: TextInputAction.next,
-                              key: ValueKey('password2'),
+                              controller: _pass,
+                              validator: (value) {
+                                // Return string if error and if ok return nothing
+                                if (value!.isEmpty || value.length < 7) {
+                                  return 'Password must be at least 7 characters long.';
+                                }
+                                return null;
+                              },
                               style: TextStyle(color: Colors.grey[300]),
                               decoration: InputDecoration(
-                                labelText: 'Repetir Senha',
+                                labelText: 'Senha',
                                 labelStyle: TextStyle(
                                     color: Colors.grey[600], fontSize: 14),
                                 suffixIcon: IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      hideConfirmPassword =
-                                          !hideConfirmPassword;
+                                      hidePassword = !hidePassword;
                                     });
                                   },
                                   icon: Icon(
-                                    hideConfirmPassword
+                                    hidePassword
                                         ? Icons.visibility_off
                                         : Icons.visibility,
                                     color: Colors.white,
                                   ),
                                 ),
                               ),
-                              obscureText: hideConfirmPassword,
-                              validator: (value) {
-                                if (value != _pass.text) return 'Not Match';
-                                return null;
-                              }),
-                        ),
-                    ],
-                  ),
+                              obscureText: hidePassword,
+                              onFieldSubmitted: (value) {},
+                              onSaved: (value) {
+                                _userPassword = value!;
+                              },
+                            ),
+                          ),
+                          if (!widget.isLogin) SizedBox(width: 15),
+                          if (!widget.isLogin)
+                            Expanded(
+                              child: TextFormField(
+                                  controller: _confirmPass,
+                                  textInputAction: TextInputAction.next,
+                                  key: ValueKey('password2'),
+                                  style: TextStyle(color: Colors.grey[300]),
+                                  decoration: InputDecoration(
+                                    labelText: 'Repetir Senha',
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey[600], fontSize: 14),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          hideConfirmPassword =
+                                              !hideConfirmPassword;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        hideConfirmPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  obscureText: hideConfirmPassword,
+                                  validator: (value) {
+                                    if (value != _pass.text) return 'Not Match';
+                                    return null;
+                                  }),
+                            ),
+                        ],
+                      ),
                   SizedBox(height: 12),
                   ElevatedButton(
-                   child: Text('Get user info'), 
-                   onPressed: () async {
-                     final user = authRepository.getLoggedUser();
-                     print(user);
-                     print(user!.email);
-                     print(user.displayName);
-                     print(user.uid);
-                   }
-                  ),
+                      child: Text('Get user info'), onPressed: () {}),
                   ElevatedButton(
                     onPressed: () async {
                       // bool isValid = _trySubmit();
                       final email = 'davirolim94@gmail.com';
                       final password = 'davi1234';
                       final username = 'DaviRolim';
-                      authRepository.signInWithEmailAndPassword(email, password);
+                      authRepository.signInWithEmailAndPassword(
+                          email, password);
 
                       // if (isValid) {
                       //   try {
