@@ -12,7 +12,6 @@ class SyncRepository {
         body: convert.jsonEncode(
             {'username': username, 'email': email, 'password': password}));
     print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
     return convert.jsonDecode(response.body) as Map<String, dynamic>;
   }
 }

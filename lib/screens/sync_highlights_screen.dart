@@ -37,7 +37,9 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
   @override
   Widget build(BuildContext context) {
     final syncState = ref.watch(SyncProvider.syncProvider).state;
-    return  Center(
+    return syncState == NotifierState.loading
+        ? CircularProgressIndicator()
+        : Center(
             child: Card(
               margin: EdgeInsets.all(20),
               child: SingleChildScrollView(
