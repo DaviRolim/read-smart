@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Book.dart';
 
 class HighlightRepository {
-  final userColl = FirebaseFirestore.instance.collection('user');
+  final userColl = FirebaseFirestore.instance.collection('users');
 
   Query<Book> getUserBooks(String userID) {
     final Query<Book> booksColl =

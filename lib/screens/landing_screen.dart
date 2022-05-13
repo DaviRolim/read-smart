@@ -9,6 +9,7 @@ import 'package:read_smart/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/screens/home_screen.dart';
+import 'package:read_smart/screens/sync_highlights_screen.dart';
 import 'package:read_smart/widgets/auth/auth_form.dart';
 
 class LandingScreen extends ConsumerStatefulWidget {
@@ -108,6 +109,7 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                       // )));
                       ref.read(HighlightsProvider.highlightsProvider).fetchHighlghts();
                       Navigator.of(context).push(CustomPageRoute(HomeScreen()));
+                      // Navigator.of(context).push(CustomPageRoute(SyncHighlightsScreen()));
                     },
                     child: Text(
                       'Get started',
