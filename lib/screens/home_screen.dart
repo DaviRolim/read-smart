@@ -44,18 +44,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: Icon(
-          Icons.notifications,
-          color: Colors.white70,
-        ),
+        leading: Icon(Icons.notifications, color: Colors.white70),
         centerTitle: true,
         actions: <Widget>[
-          // Add Badge later to display the current streak
+          // Add Text later to display the current streak
           IconButton(
             icon: const Icon(
               Icons.bolt,
@@ -84,36 +79,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               BottomNavigationBar(
                 onTap: _selectPage,
-                elevation: 4,
+                elevation: 3,
                 unselectedItemColor: Colors.grey[600],
                 selectedItemColor: Colors.grey[200],
                 currentIndex: _selectedPageIndex,
                 backgroundColor: Colors.grey[900],
-                // showSelectedLabels: false,
                 showUnselectedLabels: true,
-                // type: BottomNavigationBarType.shifting,
                 type: BottomNavigationBarType.fixed,
                 items: [
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home), label: 'Home'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.sync), label: 'Sync'),
-                 
                 ],
               ),
             ],
           ),
         ),
       ),
-      // floatingActionButton: RedButton(),
-      // body: StreamBuilder<QuerySnapshot>(
-      //     stream: highlights,
-      //     builder: (context, snapshot) {
-      //       if (!snapshot.hasData) return LinearProgressIndicator();
-
-      //       return _buildList(context, snapshot.data?.docs ?? []);
-      //     }),
     );
   }
 }
-
