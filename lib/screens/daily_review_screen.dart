@@ -51,7 +51,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               // I'm going to pre-built widget beforehand 
               // And here I call myListWidget[0]
               // Doing that I can add the finish screen at the last position of the array.
-              child: build_highlight_card(
+              child: buildHighlightCard(
                   dailyReview.highlights[_selectedPageIndex]),
               duration: const Duration(seconds: 1),
             ),
@@ -87,7 +87,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               );
   }
 
-  Widget build_highlight_card(HighlightExtended highlight) {
+  Widget buildHighlightCard(HighlightExtended highlight) {
     return SingleChildScrollView(
       child: Container(
           margin: EdgeInsets.all(15.0),
