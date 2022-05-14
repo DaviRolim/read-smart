@@ -41,7 +41,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             side: BorderSide(width: 1),
             borderRadius: BorderRadius.circular(10),
           ),
-          color: Colors.grey[900],
+          color: Color(0xff9d6790),
           elevation: 2,
           child: Container(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -69,13 +69,18 @@ class _HomeContentState extends ConsumerState<HomeContent> {
           Navigator.of(context).push(CustomPageRoute(DailyReviewScreen()));
         },
         child: Card(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          color: Colors.grey[900],
           elevation: 5,
-          child: Padding(
+          color: Colors.transparent,
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage("assets/images/daily-review-bg.webp"),
+                  fit: BoxFit.cover,
+                  // colorFilter: ColorFilter.mode(Color(0xff466964), BlendMode.overlay),
+                  opacity: 0.65
+                ),
+              ),
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

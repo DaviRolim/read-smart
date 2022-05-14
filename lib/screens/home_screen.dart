@@ -47,20 +47,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: Icon(Icons.notifications, color: Colors.white70),
+        leading: Icon(Icons.notifications_outlined, color: Color(0xffFBC646), size: 26,),
         centerTitle: true,
         actions: <Widget>[
           // Add Text later to display the current streak
-          IconButton(
-            icon: const Icon(
-              Icons.bolt,
-              color: Colors.white70,
-            ),
-            tooltip: 'Streak',
-            onPressed: () {
-              // handle the press
-            },
-          ),
+          Center(
+              child: Text('10', style: Theme.of(context).textTheme.bodyMedium)),
+          SizedBox(width: 5),
+          Container(
+              padding: EdgeInsets.only(right: 10),
+              width: 45,
+              height: 45,
+              child: Image.asset('assets/icons/trophy-icon.png'))
         ],
         title: Text(
           'Readsmart',
