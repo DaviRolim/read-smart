@@ -63,8 +63,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
         title: Text(
-          'Read Smart',
-          style: TextStyle(color: Colors.white70),
+          'Readsmart',
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         backgroundColor: Colors.black87,
       ),

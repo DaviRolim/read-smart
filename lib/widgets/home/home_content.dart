@@ -47,8 +47,8 @@ class _HomeContentState extends ConsumerState<HomeContent> {
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Books',
-                style: TextStyle(color: Colors.grey[200], fontSize: 16),
+                title,
+                style: Theme.of(context).textTheme.headlineMedium,
               )),
         ),
       ),
@@ -82,10 +82,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                 children: [
                   Text(
                     DateFormat.yMMMMd().format(DateTime.now()),
-                    style: TextStyle(
-                        color: Colors.grey[200],
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500),
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   SizedBox(height: 8),
                   Divider(
@@ -94,13 +91,8 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                     color: Colors.black,
                   ),
                   SizedBox(height: 13),
-                  Text(
-                    'Daily Review',
-                    style: TextStyle(
-                        color: Colors.grey[100],
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600),
-                  ),
+                  Text('Daily Review',
+                      style: Theme.of(context).textTheme.titleLarge),
                   Flexible(
                     child: Container(
                       alignment: Alignment.bottomCenter,
@@ -121,8 +113,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                           SizedBox(width: 5),
                           Text(
                             "You've completed today's review.",
-                            style: TextStyle(
-                                color: Colors.grey[100], fontSize: 13),
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],
                       ),

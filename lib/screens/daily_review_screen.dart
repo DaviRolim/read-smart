@@ -41,7 +41,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               ],
               title: Text(
                 'Daily Review',
-                style: TextStyle(color: Colors.white70),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               backgroundColor: Colors.black87,
             ),
@@ -82,7 +82,6 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                         ' of ' +
                         dailyReview.highlights.length
                             .toString(), // TODO Create a variable for this
-                    style: TextStyle(color: Colors.grey[200]),
                   ),
                 ),
               );
@@ -119,14 +118,12 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                           children: [
                             Text(
                               highlight.title,
-                              style: TextStyle(
-                                  color: Colors.grey[200],
-                                  fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             SizedBox(height: 5),
                             Text(
                               highlight.author,
-                              style: TextStyle(color: Colors.white70),
+                              style: Theme.of(context).textTheme.labelMedium,
                             )
                           ],
                         ),
@@ -136,7 +133,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                   SizedBox(height: 15),
                   Text(
                     highlight.highlight.text,
-                    style: TextStyle(color: Colors.grey[300], fontSize: 15),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   )
                 ],
               ),
