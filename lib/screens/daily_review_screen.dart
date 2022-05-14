@@ -16,7 +16,7 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   int _selectedPageIndex = 0;
   final HideNavbar hiding = HideNavbar();
-  final pageController = PageController(initialPage: 1);
+  final pageController = PageController(initialPage: 0);
 
   void _selectPage(int index) {
     setState(() {
@@ -37,7 +37,10 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                   color: Colors.white70,
                   onPressed: () => Navigator.of(context).pop()),
               centerTitle: true,
-              actions: <Widget>[buildTrackCounter(dailyReview)],
+              actions: <Widget>[
+                buildTrackCounter(context, (_selectedPageIndex + 1).toString(),
+                    dailyReview.highlights.length.toString())
+              ],
               title: Text(
                 'Daily Review',
                 style: Theme.of(context).textTheme.titleMedium,
@@ -46,8 +49,12 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
             ),
             backgroundColor: Colors.black87,
             body: PageView(
+              onPageChanged: (value) => _selectPage(value),
               controller: pageController,
-              children: dailyReview.highlights.map((highlightExtended) => buildHighlightCard(highlightExtended)).toList(),
+              children: dailyReview.highlights
+                  .map((highlightExtended) =>
+                      buildHighlightCard(highlightExtended))
+                  .toList(),
             ),
             floatingActionButton: ElevatedButton(
               child: Icon(Icons.done),
@@ -58,6 +65,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                       (dailyReview.highlights.length - 1)) {
                     index = _selectedPageIndex + 1;
                   }
+                  pageController.jumpToPage(index);
                   _selectPage(index);
                 });
               },
@@ -68,15 +76,13 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
           );
   }
 
-  Padding buildTrackCounter(DailyReview dailyReview) {
+  Padding buildTrackCounter(BuildContext context, String current, String total) {
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
       child: Center(
         child: Text(
-          (_selectedPageIndex + 1).toString() +
-              ' of ' +
-              dailyReview.highlights.length
-                  .toString(), // TODO Create a variable for this
+          current + ' of ' + total,
+          style: Theme.of(context).textTheme.bodyMedium
         ),
       ),
     );
