@@ -1,22 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:read_smart/models/Highlight.dart';
 
-class DailyHighlight {
+class DailyReview {
   final List<HighlightExtended> highlights;
 
-  DailyHighlight({
+  DailyReview({
     required this.highlights,
   });
 
+  factory DailyReview.empty() {
+    return DailyReview(highlights: []);
+  }
 
-  factory DailyHighlight.fromJson(Map<String, dynamic>? data) {
-    final allDailyHighlights = data!['quotes']
+
+  factory DailyReview.fromJson(Map<String, dynamic>? data) {
+    final allDailyReview = data!['quotes']
         .map((highlightExtended) => HighlightExtended.fromJson(highlightExtended))
         .toList()
         .cast<HighlightExtended>();
 
-    return DailyHighlight(
-      highlights: allDailyHighlights,
+    return DailyReview(
+      highlights: allDailyReview,
     );
   }
 

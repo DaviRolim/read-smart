@@ -55,9 +55,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         centerTitle: true,
         actions: <Widget>[
+          // Add Badge later to display the current streak
           IconButton(
             icon: const Icon(
-              Icons.thunderstorm,
+              Icons.bolt,
               color: Colors.white70,
             ),
             tooltip: 'Streak',
