@@ -16,6 +16,7 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   int _selectedPageIndex = 0;
   final HideNavbar hiding = HideNavbar();
+  final pageController = PageController(initialPage: 0);
 
   void _selectPage(int index) {
     setState(() {
@@ -37,7 +38,8 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                   onPressed: () => Navigator.of(context).pop()),
               centerTitle: true,
               actions: <Widget>[
-                buildTrackCounter(dailyReview)
+                buildTrackCounter(context, (_selectedPageIndex + 1).toString(),
+                    dailyReview.highlights.length.toString())
               ],
               title: Text(
                 'Daily Review',
@@ -46,24 +48,25 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               backgroundColor: Colors.black87,
             ),
             backgroundColor: Colors.black87,
-            body: AnimatedSwitcher(
-              // TODO -> THIS ANIMATED SWITCHER IS NOT WHAT I NEED
-              // I'm going to pre-built widget beforehand 
-              // And here I call myListWidget[0]
-              // Doing that I can add the finish screen at the last position of the array.
-              child: buildHighlightCard(
-                  dailyReview.highlights[_selectedPageIndex]),
-              duration: const Duration(seconds: 1),
+            body: PageView(
+              onPageChanged: (value) => _selectPage(value),
+              controller: pageController,
+              children: dailyReview.highlights
+                  .map((highlightExtended) =>
+                      buildHighlightCard(highlightExtended))
+                  .toList(),
             ),
             floatingActionButton: ElevatedButton(
               child: Icon(Icons.done),
               onPressed: () {
                 setState(() {
                   var index = 0;
-                  if (_selectedPageIndex < (dailyReview.highlights.length - 1)) {
+                  if (_selectedPageIndex <
+                      (dailyReview.highlights.length - 1)) {
                     index = _selectedPageIndex + 1;
                   }
-                _selectPage(index);
+                  pageController.jumpToPage(index);
+                  _selectPage(index);
                 });
               },
             ),
@@ -73,18 +76,16 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
           );
   }
 
-  Padding buildTrackCounter(DailyReview dailyReview) {
+  Padding buildTrackCounter(BuildContext context, String current, String total) {
     return Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: Center(
-                  child: Text(
-                    (_selectedPageIndex + 1).toString() +
-                        ' of ' +
-                        dailyReview.highlights.length
-                            .toString(), // TODO Create a variable for this
-                  ),
-                ),
-              );
+      padding: const EdgeInsets.only(right: 10.0),
+      child: Center(
+        child: Text(
+          current + ' of ' + total,
+          style: Theme.of(context).textTheme.bodyMedium
+        ),
+      ),
+    );
   }
 
   Widget buildHighlightCard(HighlightExtended highlight) {

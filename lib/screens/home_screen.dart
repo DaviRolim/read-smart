@@ -50,7 +50,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         leading: Icon(Icons.notifications_outlined, color: Color(0xffFBC646), size: 26,),
         centerTitle: true,
         actions: <Widget>[
-          // Add Text later to display the current streak
           Center(
               child: Text('10', style: Theme.of(context).textTheme.bodyMedium)),
           SizedBox(width: 5),
