@@ -1,8 +1,8 @@
-import 'dart:convert' as convert;
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:read_smart/models/DailyHighlights.dart';
+import 'package:read_smart/models/DailyReview.dart';
 
 import '../models/Book.dart';
 
@@ -26,16 +26,16 @@ class HighlightRepository {
   }
 
   // I'll be using the lambda API to access this functionality
-  Future<DailyHighlight> getDailyHighlights(String userID) async {
+  Future<DailyReview> getDailyReview(String userID) async {
     var url = Uri.parse(
         'https://wyzvtfm3nrfmw3ycyobn5u6fum0wqyqk.lambda-url.us-east-1.on.aws' +
             '/?id=' +
             userID);
     var response = await http.get(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {"Content-Type": "application/json", "charset": "utf-8"},
     );
-    final body = convert.jsonDecode(response.body) as Map<String, dynamic>;
-    return DailyHighlight.fromJson(body);
+    final body = json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+    return DailyReview.fromJson(body);
   }
 }
