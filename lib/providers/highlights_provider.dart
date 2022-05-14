@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:read_smart/models/DailyHighlights.dart';
 import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,9 @@ class HighlightsProvider extends ChangeNotifier {
   final _highlightRepository = HighlightRepository();
   List<QueryDocumentSnapshot<Book>>? _highlights;
   List<QueryDocumentSnapshot<Book>> get highlights => _highlights ?? [];
-  
+  DailyHighlight? _dailyHighlights;
+  DailyHighlight get dailyHighlights => _dailyHighlights!;
+
   final String userID;
   HighlightsProvider(this.userID);
 
@@ -28,9 +31,14 @@ class HighlightsProvider extends ChangeNotifier {
     });
   }
 
+  void getDailyHighlights() async {
+    _dailyHighlights = await _highlightRepository.getDailyHighlights(userID);
+    notifyListeners();
+  }
+
   static final highlightsProvider =
       ChangeNotifierProvider<HighlightsProvider>((ref) {
-        final userID = ref.read(AuthProvider.authProvider).user!.uid;
-        return HighlightsProvider(userID);
-      });
+    final userID = ref.read(AuthProvider.authProvider).user!.uid;
+    return HighlightsProvider(userID);
+  });
 }

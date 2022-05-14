@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/providers/sync_provider.dart';
 
 class SyncHighlightsScreen extends ConsumerStatefulWidget {
