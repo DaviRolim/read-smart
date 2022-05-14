@@ -117,7 +117,7 @@ class _AuthFormState extends State<AuthForm> {
                       _userEmail = value!;
                     },
                   ),
-                  if (!widget.isLogin)
+                  // if (!widget.isLogin)
                     // TextFormField(
                     //   key: ValueKey('CPF'),
                     //   textInputAction: TextInputAction.next,
@@ -140,7 +140,7 @@ class _AuthFormState extends State<AuthForm> {
                     //   //   _userName = value!;
                     //   // },
                     // ),
-                    if (!widget.isLogin)
+                    // if (!widget.isLogin)
                       // Row(
                       //   children: [
                       //     Expanded(
@@ -235,7 +235,7 @@ class _AuthFormState extends State<AuthForm> {
                               },
                               style: TextStyle(color: Colors.grey[300]),
                               decoration: InputDecoration(
-                                labelText: 'Senha',
+                                labelText: 'Password',
                                 labelStyle: TextStyle(
                                     color: Colors.grey[600], fontSize: 14),
                                 suffixIcon: IconButton(
@@ -296,15 +296,14 @@ class _AuthFormState extends State<AuthForm> {
                       ),
                   SizedBox(height: 12),
                   ElevatedButton(
-                      child: Text('Get user info'), onPressed: () {}),
-                  ElevatedButton(
                     onPressed: () async {
-                      // bool isValid = _trySubmit();
-                      final email = 'davirolim94@gmail.com';
-                      final password = 'davi1234';
-                      final username = 'DaviRolim';
-                      authRepository.signInWithEmailAndPassword(
+                      bool isValid = _trySubmit();
+                      final email = _userEmail;
+                      final password =  _userPassword;
+                      // final username = 'DaviRolim';
+                      final success = await authRepository.signInWithEmailAndPassword(
                           email, password);
+                      Navigator.of(context).pop();
 
                       // if (isValid) {
                       //   try {

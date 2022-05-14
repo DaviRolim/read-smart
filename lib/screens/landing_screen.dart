@@ -128,7 +128,11 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => print('Sign in as an existing user'),
+                  onPressed: () {
+                    Navigator.of(context).push(CustomPageRoute(AuthForm(
+                      isLogin: true,
+                    )));
+                  },
                   child: Text(
                     'Sign in as an existing user',
                     style: TextStyle(fontSize: 16),

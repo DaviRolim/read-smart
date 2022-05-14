@@ -12,6 +12,7 @@ class AuthRepository {
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     var userAuthenticated = false;
+    print(email  + ' - ' +password);
     try {
       UserCredential userCredential =
           await authInstance.signInWithEmailAndPassword(
