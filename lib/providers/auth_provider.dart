@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/Failure.dart';
-
-enum NotifierState { initial, loading, loaded }
+import 'notifier_enum.dart';
 
 class AuthProvider extends ChangeNotifier {
   final _authRepository = AuthRepository();

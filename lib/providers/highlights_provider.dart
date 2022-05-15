@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:read_smart/models/DailyReview.dart';
 import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +8,13 @@ import 'package:read_smart/repository/highlights_repository.dart';
 
 import '../models/Book.dart';
 import '../models/Failure.dart';
+import 'notifier_enum.dart';
 
 class HighlightsProvider extends ChangeNotifier {
   final _highlightRepository = HighlightRepository();
   List<QueryDocumentSnapshot<Book>>? _highlights;
   List<QueryDocumentSnapshot<Book>> get highlights => _highlights ?? [];
-  DailyReview? _dailyReview;
-  DailyReview get dailyReview => _dailyReview ??  DailyReview.empty();
+  
 
   final String userID;
   HighlightsProvider(this.userID);
@@ -31,11 +30,7 @@ class HighlightsProvider extends ChangeNotifier {
     });
   }
 
-  void getDailyReview() async {
-    _dailyReview = await _highlightRepository.getDailyReview(userID);
-    notifyListeners();
-  }
-
+  
   static final highlightsProvider =
       ChangeNotifierProvider<HighlightsProvider>((ref) {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;

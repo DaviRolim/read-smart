@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
+import 'package:read_smart/providers/daily_review_provider.dart';
 import 'package:read_smart/providers/highlights_provider.dart';
+import 'package:read_smart/providers/notifier_enum.dart';
 import 'package:read_smart/repository/auth_repository.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/repository/highlights_repository.dart';
@@ -24,6 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<Widget> _pages = [];
   @override
   void initState() {
+    ref.read(DailyReviewProvider.dailyReviewProvider).fetchUserStreak();
     _pages = <Widget>[
       HomeContent(),
       SyncHighlightsScreen(),
@@ -44,14 +47,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentStreak =
+        ref.watch(DailyReviewProvider.dailyReviewProvider).currentStreak;
+    // final streakState = ref.watch(DailyReviewProvider.dailyReviewProvider).state;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: Icon(Icons.notifications_outlined, color: Color(0xffFBC646), size: 26,),
+        leading: Icon(
+          Icons.notifications_outlined,
+          color: Color(0xffFBC646),
+          size: 26,
+        ),
         centerTitle: true,
         actions: <Widget>[
           Center(
-              child: Text('10', style: Theme.of(context).textTheme.bodyMedium)),
+              child: currentStreak != null
+                  ? Text(currentStreak.toString(),
+                      style: Theme.of(context).textTheme.bodyMedium)
+                  : Container(
+                    width: 30,
+                    height: 30,
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(color: Color(0xff9d6790),),
+                  )),
           SizedBox(width: 5),
           Container(
               padding: EdgeInsets.only(right: 10),

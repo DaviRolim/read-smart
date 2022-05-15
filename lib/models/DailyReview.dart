@@ -3,13 +3,15 @@ import 'package:read_smart/models/Highlight.dart';
 
 class DailyReview {
   final List<HighlightExtended> highlights;
+  bool finished;
 
   DailyReview({
     required this.highlights,
+    required this.finished
   });
 
   factory DailyReview.empty() {
-    return DailyReview(highlights: []);
+    return DailyReview(highlights: [], finished: false);
   }
 
   factory DailyReview.fromJson(Map<String, dynamic>? data) {
@@ -21,6 +23,7 @@ class DailyReview {
 
     return DailyReview(
       highlights: allDailyReview,
+      finished: data['finished']
     );
   }
 
@@ -29,5 +32,9 @@ class DailyReview {
     return {
       'highlight': '1',
     };
+  }
+
+  void setFinished(bool isFinished) {
+    this.finished = isFinished;
   }
 }

@@ -5,6 +5,8 @@ import 'package:read_smart/helpers/custom_page_route.dart';
 import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/screens/daily_review_screen.dart';
 
+import '../../providers/daily_review_provider.dart';
+
 class HomeContent extends ConsumerStatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
 
@@ -62,9 +64,9 @@ class _HomeContentState extends ConsumerState<HomeContent> {
       child: InkWell(
         onTap: () async {
           final dailyReview =
-              ref.read(HighlightsProvider.highlightsProvider).dailyReview;
+              ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview;
           if (dailyReview.highlights.isEmpty) {
-            ref.read(HighlightsProvider.highlightsProvider).getDailyReview();
+            ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
           }
           Navigator.of(context).push(CustomPageRoute(DailyReviewScreen()));
         },
