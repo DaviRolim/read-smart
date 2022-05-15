@@ -48,13 +48,30 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               backgroundColor: Colors.black87,
             ),
             backgroundColor: Colors.black87,
-            body: PageView(
-              onPageChanged: (value) => _selectPage(value),
-              controller: pageController,
-              children: dailyReview.highlights
-                  .map((highlightExtended) =>
-                      buildHighlightCard(highlightExtended))
-                  .toList(),
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    LinearProgressIndicator(
+                      color: Color(0xff9d6790),
+                      value: ((_selectedPageIndex + 1) /
+                          dailyReview.highlights.length),
+                    ),
+                    Flexible(
+                      child: PageView(
+                        onPageChanged: (value) => _selectPage(value),
+                        controller: pageController,
+                        children: dailyReview.highlights
+                            .map((highlightExtended) =>
+                                buildHighlightCard(highlightExtended))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             floatingActionButton: ElevatedButton(
               child: Icon(Icons.done),
@@ -76,14 +93,13 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
           );
   }
 
-  Padding buildTrackCounter(BuildContext context, String current, String total) {
+  Padding buildTrackCounter(
+      BuildContext context, String current, String total) {
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
       child: Center(
-        child: Text(
-          current + ' of ' + total,
-          style: Theme.of(context).textTheme.bodyMedium
-        ),
+        child: Text(current + ' of ' + total,
+            style: Theme.of(context).textTheme.bodyMedium),
       ),
     );
   }

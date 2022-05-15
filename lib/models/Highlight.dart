@@ -13,7 +13,6 @@ class HighlightExtended {
     required this.highlight,
   });
 
-
   factory HighlightExtended.fromJson(Map<String, dynamic>? data) {
     final highlight = Highlight.fromJson(data!['highlight']);
 
@@ -26,11 +25,7 @@ class HighlightExtended {
   }
 
   toJson() {
-    final highlightsMap = <Map<String, dynamic>>[];
-
-  //   for (var highlight in highlights) {
-  //     highlightsMap.add(highlight.toJson());
-  //   }
+    // TODO implement toJson return Map<String, dynamic>
 
     return {
       'highlight': '1',
