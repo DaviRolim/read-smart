@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:read_smart/models/DailyReview.dart';
 
 import '../models/Book.dart';
@@ -35,7 +36,20 @@ class HighlightRepository {
       url,
       headers: {"Content-Type": "application/json", "charset": "utf-8"},
     );
-    final body = json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+    final body =
+        json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     return DailyReview.fromJson(body);
+  }
+
+  void saveFinishedReview(String userID) {
+    final dailyReviewDoc = userColl.doc(userID).collection('daily-highlights').doc(_getCurrentDateString());
+    dailyReviewDoc.set({'finished': true}, SetOptions(merge: true));
+  }
+
+  String _getCurrentDateString() {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(now);
+    return  formatted;
   }
 }

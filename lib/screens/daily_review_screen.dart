@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
 import 'package:read_smart/models/DailyReview.dart';
 import 'package:read_smart/models/Highlight.dart';
+import 'package:read_smart/providers/daily_review_provider.dart';
 import 'package:read_smart/providers/highlights_provider.dart';
 
 class DailyReviewScreen extends ConsumerStatefulWidget {
@@ -14,20 +15,22 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 }
 
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
-  int _selectedPageIndex = 0;
   final HideNavbar hiding = HideNavbar();
-  final pageController = PageController(initialPage: 0);
+  var pageController = PageController();
 
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+  @override
+  void initState() {
+    var index = ref.read(DailyReviewProvider.dailyReviewProvider).currentIndex;
+    pageController = PageController(initialPage: index);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final DailyReview? dailyReview =
-        ref.watch(HighlightsProvider.highlightsProvider).dailyReview;
+        ref.watch(DailyReviewProvider.dailyReviewProvider).dailyReview;
+    final int _selectedPageIndex =
+        ref.watch(DailyReviewProvider.dailyReviewProvider).currentIndex;
     return dailyReview!.highlights.length > 0
         ? Scaffold(
             appBar: AppBar(
@@ -61,7 +64,14 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                     ),
                     Flexible(
                       child: PageView(
-                        onPageChanged: (value) => _selectPage(value),
+                        onPageChanged: (value) {
+                          if(value == dailyReview.highlights.length - 1) {
+                            ref.read(DailyReviewProvider.dailyReviewProvider).finishedDailyReview();
+                          }
+                          ref
+                              .read(DailyReviewProvider.dailyReviewProvider)
+                              .setCurrentIndex(value);
+                        },
                         controller: pageController,
                         children: dailyReview.highlights
                             .map((highlightExtended) =>
@@ -77,13 +87,17 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
               child: Icon(Icons.done),
               onPressed: () {
                 setState(() {
-                  var index = 0;
-                  if (_selectedPageIndex <
-                      (dailyReview.highlights.length - 1)) {
+                  var index = _selectedPageIndex;
+                  if (_selectedPageIndex < dailyReview.highlights.length - 1) {
                     index = _selectedPageIndex + 1;
                   }
+                  if(index == dailyReview.highlights.length -1) {
+                    ref.read(DailyReviewProvider.dailyReviewProvider).finishedDailyReview();
+                  }
                   pageController.jumpToPage(index);
-                  _selectPage(index);
+                  ref
+                      .read(DailyReviewProvider.dailyReviewProvider)
+                      .setCurrentIndex(index);
                 });
               },
             ),

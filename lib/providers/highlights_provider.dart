@@ -14,8 +14,7 @@ class HighlightsProvider extends ChangeNotifier {
   final _highlightRepository = HighlightRepository();
   List<QueryDocumentSnapshot<Book>>? _highlights;
   List<QueryDocumentSnapshot<Book>> get highlights => _highlights ?? [];
-  DailyReview? _dailyReview;
-  DailyReview get dailyReview => _dailyReview ??  DailyReview.empty();
+  
 
   final String userID;
   HighlightsProvider(this.userID);
@@ -31,11 +30,7 @@ class HighlightsProvider extends ChangeNotifier {
     });
   }
 
-  void getDailyReview() async {
-    _dailyReview = await _highlightRepository.getDailyReview(userID);
-    notifyListeners();
-  }
-
+  
   static final highlightsProvider =
       ChangeNotifierProvider<HighlightsProvider>((ref) {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;
