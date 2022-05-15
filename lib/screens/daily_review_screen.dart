@@ -28,7 +28,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   @override
   Widget build(BuildContext context) {
     final DailyReview? dailyReview =
-        ref.watch(DailyReviewProvider.dailyReviewProvider).dailyReview;
+        ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview;
     final int _selectedPageIndex =
         ref.watch(DailyReviewProvider.dailyReviewProvider).currentIndex;
     return dailyReview!.highlights.length > 0
@@ -91,9 +91,9 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                   if (_selectedPageIndex < dailyReview.highlights.length - 1) {
                     index = _selectedPageIndex + 1;
                   }
-                  if(index == dailyReview.highlights.length -1) {
-                    ref.read(DailyReviewProvider.dailyReviewProvider).finishedDailyReview();
-                  }
+                  // if(index == dailyReview.highlights.length -1) {
+                  //   ref.read(DailyReviewProvider.dailyReviewProvider).finishedDailyReview();
+                  // }
                   pageController.jumpToPage(index);
                   ref
                       .read(DailyReviewProvider.dailyReviewProvider)

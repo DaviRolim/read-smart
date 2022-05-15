@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:read_smart/models/DailyReview.dart';
 import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:read_smart/repository/highlights_repository.dart';
 
 import '../models/Book.dart';
 import '../models/Failure.dart';
+import 'notifier_enum.dart';
 
 class HighlightsProvider extends ChangeNotifier {
   final _highlightRepository = HighlightRepository();

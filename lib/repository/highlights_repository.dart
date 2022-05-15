@@ -40,16 +40,4 @@ class HighlightRepository {
         json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     return DailyReview.fromJson(body);
   }
-
-  void saveFinishedReview(String userID) {
-    final dailyReviewDoc = userColl.doc(userID).collection('daily-highlights').doc(_getCurrentDateString());
-    dailyReviewDoc.set({'finished': true}, SetOptions(merge: true));
-  }
-
-  String _getCurrentDateString() {
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    final String formatted = formatter.format(now);
-    return  formatted;
-  }
 }
