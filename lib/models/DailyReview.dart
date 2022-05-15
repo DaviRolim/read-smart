@@ -12,10 +12,10 @@ class DailyReview {
     return DailyReview(highlights: []);
   }
 
-
   factory DailyReview.fromJson(Map<String, dynamic>? data) {
     final allDailyReview = data!['quotes']
-        .map((highlightExtended) => HighlightExtended.fromJson(highlightExtended))
+        .map((highlightExtended) =>
+            HighlightExtended.fromJson(highlightExtended))
         .toList()
         .cast<HighlightExtended>();
 
@@ -25,12 +25,7 @@ class DailyReview {
   }
 
   toJson() {
-    final highlightsMap = <Map<String, dynamic>>[];
-
-  //   for (var highlight in highlights) {
-  //     highlightsMap.add(highlight.toJson());
-  //   }
-
+    // TODO implement toJson return Map<String, dynamic>
     return {
       'highlight': '1',
     };
