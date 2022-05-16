@@ -16,6 +16,12 @@ class HomeContent extends ConsumerStatefulWidget {
 
 class _HomeContentState extends ConsumerState<HomeContent> {
   @override
+  void initState() {
+    ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         color: Colors.black54,
@@ -58,16 +64,15 @@ class _HomeContentState extends ConsumerState<HomeContent> {
   }
 
   Container _buildPrimaryCard(BuildContext context) {
+    final todayProgressText =
+        ref.watch(DailyReviewProvider.dailyReviewProvider).progressText;
+    final finishedReview =
+        ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview.finished;
     return Container(
       height: MediaQuery.of(context).size.height * 0.30,
       width: double.infinity,
       child: InkWell(
-        onTap: () async {
-          final dailyReview =
-              ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview;
-          if (dailyReview.highlights.isEmpty) {
-            ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
-          }
+        onTap: () {
           Navigator.of(context).push(CustomPageRoute(DailyReviewScreen()));
         },
         child: Card(
@@ -77,11 +82,9 @@ class _HomeContentState extends ConsumerState<HomeContent> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 image: DecorationImage(
-                  image: AssetImage("assets/images/daily-review-bg.webp"),
-                  fit: BoxFit.cover,
-                  // colorFilter: ColorFilter.mode(Color(0xff466964), BlendMode.overlay),
-                  opacity: 0.65
-                ),
+                    image: AssetImage("assets/images/daily-review-bg.webp"),
+                    fit: BoxFit.cover,
+                    opacity: 0.65),
               ),
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Column(
@@ -105,21 +108,22 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                       alignment: Alignment.bottomCenter,
                       child: Row(
                         children: [
-                          ClipOval(
-                            child: Material(
-                              color: Colors.grey[100],
-                              child: SizedBox(
-                                child: Icon(
-                                  Icons.done_rounded,
-                                  color: Colors.black,
-                                  size: 15,
+                          if (finishedReview)
+                            ClipOval(
+                              child: Material(
+                                color: Colors.grey[100],
+                                child: SizedBox(
+                                  child: Icon(
+                                    Icons.done_rounded,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
                           SizedBox(width: 5),
                           Text(
-                            "You've completed today's review.",
+                            todayProgressText ?? '',
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],
