@@ -29,7 +29,7 @@ class ReadSmartApp extends ConsumerWidget {
     final auth = ref.read(AuthProvider.authProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Readsmart',
       theme: ThemeData(
         primarySwatch: Colors.grey,
         cardColor: Colors.grey[900],
