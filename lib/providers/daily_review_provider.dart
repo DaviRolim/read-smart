@@ -28,7 +28,16 @@ class DailyReviewProvider extends ChangeNotifier {
   int get currentIndex => _currentIndex;
   int? _currentStreak;
   int? get currentStreak => _currentStreak;
+  String? get progressText {
+    if(_dailyReview != null) {
+      int highlightsLenght = dailyReview.highlights.length;
+      final alreadySeenText = _currentIndex.toString() + "/" + highlightsLenght.toString() + ' to complete your review today.';
+      return _dailyReview!.finished ? "You've completed today's review." : alreadySeenText;
+    }
+    return null;
+  }
 
+  
   void getDailyReview() async {
     _dailyReview = await _highlightRepository.getDailyReview(userID);
     notifyListeners();
