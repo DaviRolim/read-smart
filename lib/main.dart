@@ -1,7 +1,9 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/auth_provider.dart';
+import 'package:read_smart/providers/theme.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
@@ -20,6 +22,10 @@ void main() async {
 class ReadSmartApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ValueNotifier(ThemeSettings(
+      sourceColor: const Color(0xff3f0792), // Replace this color
+      themeMode: ThemeMode.system,
+    ));
     // Default color for texts
     final newTextTheme = Theme.of(context).textTheme.apply(
           bodyColor: Colors.grey[200],
@@ -27,45 +33,34 @@ class ReadSmartApp extends ConsumerWidget {
         );
 
     final auth = ref.read(AuthProvider.authProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Readsmart',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        cardColor: Colors.grey[900],
-        textTheme: newTextTheme.copyWith(
-          titleLarge: TextStyle(
-              color: Colors.grey[100],
-              fontSize: 28,
-              fontWeight: FontWeight.w600),
-          titleMedium: TextStyle(
-              color: Colors.grey[300],
-              fontSize: 18,
-              fontWeight: FontWeight.w600),
-          headlineSmall: TextStyle(
-              color: Colors.grey[200],
-              fontSize: 14,
-              fontWeight: FontWeight.w600),
-          headlineMedium: TextStyle(
-              color: Colors.grey[200],
-              fontSize: 18,
-              fontWeight: FontWeight.w600),
-          bodyMedium: TextStyle(
-            color: Colors.grey[300],
-            fontSize: 15,
-          ),
-          labelMedium: TextStyle(
-            color: Colors.grey[400],
-            fontSize: 13,
-          ),
-          bodySmall: TextStyle(color: Colors.white70),
-        ),
-      ),
-      home: auth.user != null ? HomeScreen() : LandingScreen(),
-      routes: {
-        AuthScreen.routeName: (ctx) => AuthScreen(),
-        // MainScreen.routeName: (ctx) => MainScreen(),
-      },
-    );
+    return DynamicColorBuilder(
+        builder: (lightDynamic, darkDynamic) => ThemeProvider(
+            lightDynamic: lightDynamic,
+            darkDynamic: darkDynamic,
+            settings: settings,
+            child: NotificationListener<ThemeSettingChange>(
+              onNotification: (notification) {
+                settings.value = notification.settings;
+                return true;
+              },
+              child: ValueListenableBuilder<ThemeSettings>(
+                  valueListenable: settings,
+                  builder: (context, value, _) {
+                    // Create theme instance
+                    final theme = ThemeProvider.of(context);
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      title: 'Flutter Demo',
+                      theme: theme.light(settings.value.sourceColor),
+                      themeMode: theme.themeMode(),
+                      darkTheme: theme.dark(settings.value.sourceColor),
+                      home: auth.user != null ? HomeScreen() : LandingScreen(),
+                      routes: {
+                        AuthScreen.routeName: (ctx) => AuthScreen(),
+                        // MainScreen.routeName: (ctx) => MainScreen(),
+                      },
+                    );
+                  }),
+            )));
   }
 }
