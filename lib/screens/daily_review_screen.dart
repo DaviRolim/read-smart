@@ -35,7 +35,6 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
         index = currentIndex + 1;
       }
       pageController.jumpToPage(index);
-      ref.read(DailyReviewProvider.dailyReviewProvider).setCurrentIndex(index);
     });
   }
 
