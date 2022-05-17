@@ -23,8 +23,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
     final dailyReviewProvider =
         ref.read(DailyReviewProvider.dailyReviewProvider);
     if (dailyReviewProvider.dailyReview.highlights.isEmpty) {
-      print('entrou');
-      ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
+      ref.read(DailyReviewProvider.dailyReviewProvider).loadUserData();
     }
     super.initState();
   }
@@ -40,7 +39,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
     final finishedReview =
         ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview.finished;
     return Container(
-        color: Colors.black54,
+        // color: Colors.black54,
         margin: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         child: Column(
           children: [
@@ -69,11 +68,11 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             if (finishedReview)
               ClipOval(
                 child: Material(
-                  color: Colors.grey[100],
+                  // color: Colors.grey[100],
                   child: SizedBox(
                     child: Icon(
                       Icons.done_rounded,
-                      color: Colors.black,
+                      // color: Colors.black,
                       size: 15,
                     ),
                   ),
@@ -82,7 +81,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             SizedBox(width: 5),
             Text(
               todayProgressText ?? '',
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.bodyMedium!.apply(color: Theme.of(context).colorScheme.background),
             ),
           ],
         ),

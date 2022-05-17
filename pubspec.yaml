@@ -37,6 +37,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   dartz: ^0.10.0
   dynamic_color: ^1.1.2
+  google_fonts: ^2.3.2
   # Firebase
   firebase_core: ^1.4.0
   firebase_auth: ^3.0.1
