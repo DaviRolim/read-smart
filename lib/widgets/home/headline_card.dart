@@ -50,7 +50,7 @@ class HeadlineCard extends ConsumerWidget {
                   if (textTop != null)
                     Text(
                       textTop!,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: Theme.of(context).textTheme.titleMedium!.apply(color: Theme.of(context).colorScheme.background),
                     ),
                   // Text(
                   //   DateFormat.yMMMMd().format(DateTime.now()),
@@ -60,11 +60,13 @@ class HeadlineCard extends ConsumerWidget {
                   Divider(
                     height: 10,
                     thickness: 2,
-                    color: Colors.black,
+                    // color: Colors.black,
                   ),
                   SizedBox(height: 13),
                   Text(title,
-                      style: Theme.of(context).textTheme.titleLarge),
+                      style: Theme.of(context).textTheme.headlineMedium!.apply(
+                        color: Theme.of(context).colorScheme.background
+                      )),
                   body
                 ],
               )),

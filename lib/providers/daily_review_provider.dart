@@ -38,8 +38,13 @@ class DailyReviewProvider extends ChangeNotifier {
   }
 
   
-  void getDailyReview() async {
+  Future<void> getDailyReview() async {
     _dailyReview = await _highlightRepository.getDailyReview(userID);
+    notifyListeners();
+  }
+  void loadUserData() async {
+    await getDailyReview();
+    fetchUserStreak();
     notifyListeners();
   }
 

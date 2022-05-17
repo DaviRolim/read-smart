@@ -21,14 +21,14 @@ class SectionCard extends StatelessWidget {
             side: BorderSide(width: 1),
             borderRadius: BorderRadius.circular(10),
           ),
-          color: Color(0xff9d6790),
+          // color: Color(0xff9d6790),
           elevation: 2,
           child: Container(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               alignment: Alignment.centerLeft,
               child: Text(
                 title,
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
               )),
         ),
       ),
