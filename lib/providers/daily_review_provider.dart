@@ -43,7 +43,7 @@ class DailyReviewProvider extends ChangeNotifier {
     notifyListeners();
   }
   void loadUserData() async {
-    await getDailyReview();
+    getDailyReview();
     fetchUserStreak();
     notifyListeners();
   }

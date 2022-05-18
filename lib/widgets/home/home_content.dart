@@ -23,8 +23,9 @@ class _HomeContentState extends ConsumerState<HomeContent> {
     final dailyReviewProvider =
         ref.read(DailyReviewProvider.dailyReviewProvider);
     if (dailyReviewProvider.dailyReview.highlights.isEmpty) {
-      ref.read(DailyReviewProvider.dailyReviewProvider).loadUserData();
+      ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
     }
+    ref.read(DailyReviewProvider.dailyReviewProvider).fetchUserStreak();
     super.initState();
   }
 

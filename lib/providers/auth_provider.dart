@@ -14,7 +14,6 @@ class AuthProvider extends ChangeNotifier {
   User? _user;
   User? get user => _user;
 
-
   NotifierState _state = NotifierState.initial;
   NotifierState get state => _state;
 
@@ -29,7 +28,6 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  
   void signOut() async {
     try {
       _authRepository.signOut();
@@ -53,6 +51,18 @@ class AuthProvider extends ChangeNotifier {
       throw e;
     }
 
+    _setState(NotifierState.loaded);
+    return unit;
+  }
+
+  Future<Unit> signInWithGoogle() async {
+    _setState(NotifierState.loading);
+    try {
+      await _authRepository.signInWithGoogle();
+    } on Failure catch (e) {
+      print(e.toString());
+      throw e;
+    }
     _setState(NotifierState.loaded);
     return unit;
   }

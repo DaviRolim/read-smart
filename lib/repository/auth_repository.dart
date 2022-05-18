@@ -5,14 +5,19 @@ import 'package:read_smart/models/Failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   static final authInstance = FirebaseAuth.instance;
+  final _googleSignIn = GoogleSignIn(scopes: [
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ]);
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     var userAuthenticated = false;
-    print(email  + ' - ' +password);
+    print(email + ' - ' + password);
     try {
       UserCredential userCredential =
           await authInstance.signInWithEmailAndPassword(
@@ -84,6 +89,28 @@ class AuthRepository {
       prefs.setString('authInfo', authInfo);
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<bool> signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        return false;
+      }
+
+      final googleAuthentication = await googleUser.authentication;
+
+      final authCredential = GoogleAuthProvider.credential(
+        idToken: googleAuthentication.idToken,
+        accessToken: googleAuthentication.accessToken,
+      );
+      print(authCredential);
+
+      await authInstance.signInWithCredential(authCredential);
+      return true;
+    } on FirebaseAuthException catch (_) {
+      return false;
     }
   }
 

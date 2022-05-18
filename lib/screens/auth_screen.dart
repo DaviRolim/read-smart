@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:read_smart/widgets/auth/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,38 +14,39 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.grey[900],
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          toolbarHeight: 60,
-          bottom: const TabBar(
-            tabs: [
-              // Tab(icon: Icon(Icons.directions_transit)),
-              // Tab(icon: Icon(Icons.directions_bike)),
-              Padding(
-                padding: EdgeInsets.only(bottom: 14.0),
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 14.0),
-                child: Text(
-                  'JÁ TENHO CONTA',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: const TabBarView(
+    return Scaffold(
+      body: Container(
+        child: Column(
           children: [
-            AuthForm(isLogin: false),
-            AuthForm(isLogin: true),
+            Flexible(
+                flex: 2,
+                child: Center(
+                  child: AuthForm(
+                    isLogin: true,
+                  ),
+                )),
+            Text(
+              '-  OR  -',
+              style: GoogleFonts.montserrat(
+                  textStyle: Theme.of(context).textTheme.headlineSmall),
+            ),
+            Flexible(
+                flex: 1,
+                child: Center(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: 40,
+                      child: ElevatedButton.icon(
+                        onPressed: () => print('clicked'),
+                        icon: Image.asset(
+                          'assets/icons/g_logo.svg.webp',
+                          height: 25,
+                        ),
+                        label: Text(
+                          'Connect with Google',
+                        ),
+                      )),
+                ))
           ],
         ),
       ),

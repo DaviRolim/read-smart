@@ -108,7 +108,10 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                       //   isLogin: false,
                       // )));
                       // ref.read(HighlightsProvider.highlightsProvider).fetchHighlghts();
-                      Navigator.of(context).push(CustomPageRoute(HomeScreen()));
+                      // Navigator.of(context).push(CustomPageRoute(HomeScreen()));
+                      Navigator.of(context).push(CustomPageRoute(AuthScreen()));
+                      // authProvider.signInWithGoogle();
+                      // authProvider.signOut();
                       // Navigator.of(context).push(CustomPageRoute(SyncHighlightsScreen()));
                     },
                     child: Text(
