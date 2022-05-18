@@ -7,6 +7,7 @@ import 'package:read_smart/providers/theme.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
+import 'package:read_smart/screens/test_screen.dart';
 
 import 'firebase_options.dart';
 

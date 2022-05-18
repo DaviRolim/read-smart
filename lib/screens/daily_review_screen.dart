@@ -10,6 +10,8 @@ import 'package:read_smart/widgets/dailyreview/daily_review_app_bar.dart';
 import 'package:read_smart/widgets/dailyreview/highlight_container.dart';
 import 'package:read_smart/widgets/shared/next_page_button.dart';
 
+import '../widgets/dailyreview/daily_review_page.dart';
+
 class DailyReviewScreen extends ConsumerStatefulWidget {
   const DailyReviewScreen({Key? key}) : super(key: key);
 
@@ -58,21 +60,10 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                       value: ((_selectedPageIndex + 1) /
                           dailyReview.highlights.length),
                     ),
-                    // TODO Remove page from here to widget DailyReviewPage
-                    Flexible(
-                      child: PageView(
-                        onPageChanged: (value) {
-                          ref
-                              .read(DailyReviewProvider.dailyReviewProvider)
-                              .setCurrentIndex(value);
-                        },
-                        controller: pageController,
-                        children: dailyReview.highlights
-                            .map((highlightExtended) => HighlightContainer(
-                                highlight: highlightExtended))
-                            .toList(),
-                      ),
-                    ),
+                    DailyReviewPage(
+                        ref: ref,
+                        pageController: pageController,
+                        dailyReview: dailyReview),
                   ],
                 ),
               ),
@@ -85,6 +76,4 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
             child: CircularProgressIndicator(),
           );
   }
-
-  
 }
