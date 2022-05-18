@@ -78,6 +78,9 @@ class DailyReviewProvider extends ChangeNotifier {
 
   void setCurrentIndex(int index) {
     _currentIndex = index;
+    if(index == dailyReview.highlights.length - 1) {
+      finishedDailyReview();
+    }
     notifyListeners();
   }
 
