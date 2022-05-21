@@ -7,6 +7,7 @@ import 'package:read_smart/models/Highlight.dart';
 import 'package:read_smart/providers/daily_review_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:read_smart/widgets/dailyreview/daily_review_app_bar.dart';
+import 'package:read_smart/widgets/dailyreview/done_page.dart';
 import 'package:read_smart/widgets/dailyreview/highlight_container.dart';
 import 'package:read_smart/widgets/shared/next_page_button.dart';
 
@@ -22,11 +23,22 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   final HideNavbar hiding = HideNavbar();
   var pageController = PageController();
+  late List<Widget> listPages;
 
   @override
   void initState() {
     var index = ref.read(DailyReviewProvider.dailyReviewProvider).currentIndex;
     pageController = PageController(initialPage: index);
+    listPages = ref
+        .read(DailyReviewProvider.dailyReviewProvider)
+        .dailyReview
+        .highlights
+        .map<Widget>((highlightExtended) =>
+            HighlightContainer(highlight: highlightExtended))
+        .toList();
+
+    listPages.add(DonePage());
+    print(listPages.length);
     super.initState();
   }
 
@@ -63,7 +75,8 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                     DailyReviewPage(
                         ref: ref,
                         pageController: pageController,
-                        dailyReview: dailyReview),
+                        dailyReview: dailyReview,
+                        listPage: listPages),
                   ],
                 ),
               ),

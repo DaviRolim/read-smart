@@ -11,11 +11,13 @@ class DailyReviewPage extends StatelessWidget {
     required this.ref,
     required this.pageController,
     required this.dailyReview,
+    required this.listPage
   }) : super(key: key);
 
   final WidgetRef ref;
   final PageController pageController;
   final DailyReview? dailyReview;
+  final List<Widget> listPage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,7 @@ class DailyReviewPage extends StatelessWidget {
               .setCurrentIndex(value);
         },
         controller: pageController,
-        children: dailyReview!.highlights
-            .map((highlightExtended) => HighlightContainer(
-                highlight: highlightExtended))
-            .toList(),
+        children: listPage,
       ),
     );
   }
