@@ -1,19 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
 import 'package:read_smart/providers/daily_review_provider.dart';
-import 'package:read_smart/providers/highlights_provider.dart';
-import 'package:read_smart/providers/notifier_enum.dart';
-import 'package:read_smart/repository/auth_repository.dart';
-import 'package:read_smart/providers/auth_provider.dart';
-import 'package:read_smart/repository/highlights_repository.dart';
 import 'package:read_smart/screens/sync_highlights_screen.dart';
 import 'package:read_smart/widgets/home/home_content.dart';
 import 'package:read_smart/widgets/shared/brightness_toggle.dart';
 
-import '../models/Book.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -56,11 +49,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       appBar: AppBar(
         elevation: 0,
         leading: BrightnessToggle(),
-        // Icon(
-        //   Icons.notifications_outlined,
-        //   color: Color(0xffFBC646),
-        //   size: 26,
-        // ),
         centerTitle: true,
         actions: <Widget>[
           Center(
@@ -86,9 +74,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             style: GoogleFonts.comfortaa(
               textStyle: Theme.of(context).textTheme.headlineSmall,
             )),
-        // backgroundColor: Colors.black87,
       ),
-      // backgroundColor: Colors.black87,
       body: Container(child: _pages[_selectedPageIndex]),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: hiding.visible,
@@ -100,10 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               BottomNavigationBar(
                 onTap: _selectPage,
                 elevation: 3,
-                // unselectedItemColor: Colors.grey[600],
-                // selectedItemColor: Colors.grey[200],
                 currentIndex: _selectedPageIndex,
-                // backgroundColor: Colors.grey[900],
                 showUnselectedLabels: true,
                 type: BottomNavigationBarType.fixed,
                 items: [

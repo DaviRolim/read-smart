@@ -195,11 +195,11 @@ class _AuthFormState extends ConsumerState<AuthForm> {
                             );
                             Navigator.of(context)
                                 .pushReplacementNamed(HomeScreen.routeName);
-                          } on Failure catch (failure) {
+                          } catch (failure) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(failure.toString()),
-                                backgroundColor: Colors.red[400],
+                                backgroundColor: Theme.of(context).colorScheme.error,
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );

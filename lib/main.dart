@@ -54,9 +54,10 @@ class ReadSmartApp extends ConsumerWidget {
                       theme: theme.light(settings.value.sourceColor),
                       themeMode: theme.themeMode(),
                       darkTheme: theme.dark(settings.value.sourceColor),
-                      home: auth.user != null ? HomeScreen() : LandingScreen(), //LandingScreen()
+                      home: auth.user != null ? HomeScreen() : LandingScreen(), 
                       routes: {
                         AuthScreen.routeName: (ctx) => AuthScreen(isLogin: false,),
+                        HomeScreen.routeName: (ctx) => HomeScreen(),
                         // MainScreen.routeName: (ctx) => MainScreen(),
                       },
                     );

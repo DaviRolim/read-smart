@@ -74,7 +74,6 @@ class AuthProvider extends ChangeNotifier {
       await _authRepository.signUpWithEmailAndPassword(
           email, password, username);
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
 

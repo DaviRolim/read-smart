@@ -1,9 +1,13 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:read_smart/helpers/custom_page_route.dart';
+import 'package:read_smart/providers/auth_provider.dart';
+import 'package:read_smart/repository/auth_repository.dart';
+import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/widgets/auth/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   AuthScreen({required this.isLogin, Key? key});
   static const routeName = 'authscreen';
   final bool isLogin;
@@ -12,7 +16,7 @@ class AuthScreen extends StatefulWidget {
   _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen> {
   bool _isLogin = false;
   @override
   void initState() {
@@ -85,7 +89,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Theme.of(context).colorScheme.onPrimary),
                               child: IconButton(
-                                onPressed: () => print('clicked'),
+                                onPressed: () async {
+                                  try{
+                                    await ref.read(AuthProvider.authProvider).signInWithGoogle();
+                                    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                                  } catch (failure) {
+                                    print(failure.toString());
+                                  }
+
+
+                                } ,
                                 icon: Image.asset(
                                   'assets/icons/g_logo.svg.webp',
                                   height: 25,
