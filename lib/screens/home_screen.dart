@@ -17,6 +17,7 @@ import '../models/Book.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
+   static const routeName = 'home';
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();

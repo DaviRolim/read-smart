@@ -70,6 +70,7 @@ flutter:
   assets:
     - assets/images/read-smart-home.png
     - assets/images/daily-review-bg.webp
+    - assets/icons/logo-icon.png
     - assets/icons/trophy-icon.png
     - assets/icons/bell-icon.png
     - assets/icons/g_logo.svg.webp

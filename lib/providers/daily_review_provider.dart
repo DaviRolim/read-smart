@@ -42,12 +42,7 @@ class DailyReviewProvider extends ChangeNotifier {
     _dailyReview = await _highlightRepository.getDailyReview(userID);
     notifyListeners();
   }
-  void loadUserData() async {
-    getDailyReview();
-    fetchUserStreak();
-    notifyListeners();
-  }
-
+  
   void fetchUserStreak() async {
     // _setState(NotifierState.loading);
     final streak = await _dailyReviewRepository.getUserStreak(userID);

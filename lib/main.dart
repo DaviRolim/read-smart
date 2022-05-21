@@ -23,7 +23,7 @@ class ReadSmartApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ValueNotifier(ThemeSettings(
-      sourceColor: const Color(0xff3f0792), // Replace this color
+      sourceColor: const Color(0xffCE29D1), // Replace this color
       themeMode: ThemeMode.system,
     ));
     // Default color for texts
@@ -54,9 +54,9 @@ class ReadSmartApp extends ConsumerWidget {
                       theme: theme.light(settings.value.sourceColor),
                       themeMode: theme.themeMode(),
                       darkTheme: theme.dark(settings.value.sourceColor),
-                      home: LandingScreen(),//auth.user != null ? HomeScreen() : LandingScreen(),
+                      home: auth.user != null ? HomeScreen() : LandingScreen(), //LandingScreen()
                       routes: {
-                        AuthScreen.routeName: (ctx) => AuthScreen(),
+                        AuthScreen.routeName: (ctx) => AuthScreen(isLogin: false,),
                         // MainScreen.routeName: (ctx) => MainScreen(),
                       },
                     );
