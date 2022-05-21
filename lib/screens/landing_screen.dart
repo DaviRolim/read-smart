@@ -42,7 +42,7 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
       //   ),
       // },
       {
-        'page': AuthScreen(),
+        'page': AuthScreen(isLogin: false,),
         'appBarTitle': Text(
           'Entrar',
           style: TextStyle(color: Colors.white),
@@ -108,7 +108,10 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                       //   isLogin: false,
                       // )));
                       // ref.read(HighlightsProvider.highlightsProvider).fetchHighlghts();
-                      Navigator.of(context).push(CustomPageRoute(HomeScreen()));
+                      // Navigator.of(context).push(CustomPageRoute(HomeScreen()));
+                      Navigator.of(context).push(CustomPageRoute(AuthScreen(isLogin: false)));
+                      // authProvider.signInWithGoogle();
+                      // authProvider.signOut();
                       // Navigator.of(context).push(CustomPageRoute(SyncHighlightsScreen()));
                     },
                     child: Text(
@@ -129,7 +132,7 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(CustomPageRoute(AuthForm(
+                    Navigator.of(context).push(CustomPageRoute(AuthScreen(
                       isLogin: true,
                     )));
                   },

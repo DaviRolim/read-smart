@@ -7,7 +7,6 @@ import 'package:read_smart/providers/theme.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
-import 'package:read_smart/screens/test_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -24,7 +23,7 @@ class ReadSmartApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ValueNotifier(ThemeSettings(
-      sourceColor: const Color(0xff3f0792), // Replace this color
+      sourceColor: const Color(0xffCE29D1), // Replace this color
       themeMode: ThemeMode.system,
     ));
     // Default color for texts
@@ -55,9 +54,10 @@ class ReadSmartApp extends ConsumerWidget {
                       theme: theme.light(settings.value.sourceColor),
                       themeMode: theme.themeMode(),
                       darkTheme: theme.dark(settings.value.sourceColor),
-                      home: auth.user != null ? HomeScreen() : LandingScreen(),
+                      home: auth.user != null ? HomeScreen() : LandingScreen(), 
                       routes: {
-                        AuthScreen.routeName: (ctx) => AuthScreen(),
+                        AuthScreen.routeName: (ctx) => AuthScreen(isLogin: false,),
+                        HomeScreen.routeName: (ctx) => HomeScreen(),
                         // MainScreen.routeName: (ctx) => MainScreen(),
                       },
                     );
