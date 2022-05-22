@@ -23,8 +23,8 @@ class DailyReviewAppBar extends ConsumerWidget with PreferredSizeWidget {
           onPressed: () => Navigator.of(context).pop()),
       centerTitle: true,
       actions: <Widget>[
-        buildTrackCounter(context, (_selectedPageIndex + 1).toString(),
-            dailyReviewHighlightLenght.toString())
+        buildTrackCounter(
+            context, (_selectedPageIndex + 1), dailyReviewHighlightLenght)
       ],
       title: Text(
         'Daily Review',
@@ -32,16 +32,23 @@ class DailyReviewAppBar extends ConsumerWidget with PreferredSizeWidget {
       ),
     );
   }
+
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
-  Padding buildTrackCounter(
-      BuildContext context, String current, String total) {
+  Padding buildTrackCounter(BuildContext context, int current, int total) {
+    // TODO add a click if Done to go back to home.
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
       child: Center(
-        child: Text(current + ' of ' + total,
-            style: Theme.of(context).textTheme.bodyMedium),
+        child: current > total
+            ? TextButton(
+                child: Text('Done'),
+                style: Theme.of(context).textButtonTheme.style,
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            : Text(current.toString() + ' of ' + total.toString(),
+                style: Theme.of(context).textTheme.bodyMedium),
       ),
     );
   }

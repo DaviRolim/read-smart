@@ -23,7 +23,7 @@ class ReadSmartApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ValueNotifier(ThemeSettings(
-      sourceColor: const Color(0xffCE29D1), // Replace this color
+      sourceColor: const Color(0xff8a19e6), // Replace this color
       themeMode: ThemeMode.system,
     ));
     // Default color for texts

@@ -7,6 +7,7 @@ import 'package:read_smart/models/Highlight.dart';
 import 'package:read_smart/providers/daily_review_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:read_smart/widgets/dailyreview/daily_review_app_bar.dart';
+import 'package:read_smart/widgets/dailyreview/done_page.dart';
 import 'package:read_smart/widgets/dailyreview/highlight_container.dart';
 import 'package:read_smart/widgets/shared/next_page_button.dart';
 
@@ -22,18 +23,28 @@ class DailyReviewScreen extends ConsumerStatefulWidget {
 class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   final HideNavbar hiding = HideNavbar();
   var pageController = PageController();
+  late List<Widget> listPages;
 
   @override
   void initState() {
     var index = ref.read(DailyReviewProvider.dailyReviewProvider).currentIndex;
     pageController = PageController(initialPage: index);
+    listPages = ref
+        .read(DailyReviewProvider.dailyReviewProvider)
+        .dailyReview
+        .highlights
+        .map<Widget>((highlightExtended) =>
+            HighlightContainer(highlight: highlightExtended))
+        .toList();
+
+    listPages.add(DonePage());
     super.initState();
   }
 
-  void _onNextPagePressed(currentIndex, lenght) {
+  void _onNextPagePressed(int currentIndex, int lenght) {
     setState(() {
       var index = currentIndex;
-      if (currentIndex < lenght - 1) {
+      if (currentIndex < lenght) {
         index = currentIndex + 1;
       }
       pageController.jumpToPage(index);
@@ -56,22 +67,29 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                 child: Column(
                   children: [
                     LinearProgressIndicator(
-                      color: Color(0xff9d6790),
                       value: ((_selectedPageIndex + 1) /
                           dailyReview.highlights.length),
+                    ),
+                    SizedBox(
+                      height: 30,
                     ),
                     DailyReviewPage(
                         ref: ref,
                         pageController: pageController,
-                        dailyReview: dailyReview),
+                        dailyReview: dailyReview,
+                        listPage: listPages),
                   ],
                 ),
               ),
             ),
-            floatingActionButton: NextPageButton(
-              onPressed: () => _onNextPagePressed(
-                  _selectedPageIndex, dailyReview.highlights.length),
-            ))
+            floatingActionButton: NextPageButton(onPressed: () {
+              final highlightsLength = dailyReview.highlights.length;
+              if (_selectedPageIndex == highlightsLength) {
+                Navigator.of(context).pop();
+              } else {
+                _onNextPagePressed(_selectedPageIndex, highlightsLength);
+              }
+            }))
         : Center(
             child: CircularProgressIndicator(),
           );

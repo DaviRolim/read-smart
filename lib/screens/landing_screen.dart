@@ -138,7 +138,7 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                   },
                   child: Text(
                     'Sign in as an existing user',
-                    style: TextStyle(fontSize: 16),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 )
               ],
