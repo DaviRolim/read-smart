@@ -52,7 +52,6 @@ class DailyReviewProvider extends ChangeNotifier {
   }
 
   void finishedDailyReview() async {
-    print(dailyReview.finished);
     if (!dailyReview.finished) {
       print('SalvandoReview');
       // _highlightRepository.saveFinishedReview(userID);

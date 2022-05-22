@@ -38,14 +38,13 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
         .toList();
 
     listPages.add(DonePage());
-    print(listPages.length);
     super.initState();
   }
 
-  void _onNextPagePressed(currentIndex, lenght) {
+  void _onNextPagePressed(int currentIndex, int lenght) {
     setState(() {
       var index = currentIndex;
-      if (currentIndex < lenght - 1) {
+      if (currentIndex < lenght) {
         index = currentIndex + 1;
       }
       pageController.jumpToPage(index);
@@ -68,9 +67,11 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                 child: Column(
                   children: [
                     LinearProgressIndicator(
-                      color: Color(0xff9d6790),
                       value: ((_selectedPageIndex + 1) /
                           dailyReview.highlights.length),
+                    ),
+                    SizedBox(
+                      height: 30,
                     ),
                     DailyReviewPage(
                         ref: ref,
@@ -81,10 +82,14 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                 ),
               ),
             ),
-            floatingActionButton: NextPageButton(
-              onPressed: () => _onNextPagePressed(
-                  _selectedPageIndex, dailyReview.highlights.length),
-            ))
+            floatingActionButton: NextPageButton(onPressed: () {
+              final highlightsLength = dailyReview.highlights.length;
+              if (_selectedPageIndex == highlightsLength) {
+                Navigator.of(context).pop();
+              } else {
+                _onNextPagePressed(_selectedPageIndex, highlightsLength);
+              }
+            }))
         : Center(
             child: CircularProgressIndicator(),
           );
