@@ -171,7 +171,7 @@ class _AuthFormState extends ConsumerState<AuthForm> {
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: () async {
+                      onPressed: () async { // refactor
                         bool isValid = _trySubmit();
                         if (isValid) {
                           try {

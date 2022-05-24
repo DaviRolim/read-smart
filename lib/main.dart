@@ -50,7 +50,7 @@ class ReadSmartApp extends ConsumerWidget {
                     final theme = ThemeProvider.of(context);
                     return MaterialApp(
                       debugShowCheckedModeBanner: false,
-                      title: 'Flutter Demo',
+                      title: 'Readsmart',
                       theme: theme.light(settings.value.sourceColor),
                       themeMode: theme.themeMode(),
                       darkTheme: theme.dark(settings.value.sourceColor),
