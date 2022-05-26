@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
 import 'package:read_smart/providers/daily_review_provider.dart';
+import 'package:read_smart/providers/sync_provider.dart';
 import 'package:read_smart/screens/sync_highlights_screen.dart';
 import 'package:read_smart/widgets/home/home_content.dart';
 import 'package:read_smart/widgets/shared/brightness_toggle.dart';
-
+import 'package:progress_indicators/progress_indicators.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
-   static const routeName = 'home';
+  static const routeName = 'home';
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -44,6 +45,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final currentStreak =
         ref.watch(DailyReviewProvider.dailyReviewProvider).currentStreak;
+
+    final syncState = ref.watch(SyncProvider.syncProvider).state;
     // final streakState = ref.watch(DailyReviewProvider.dailyReviewProvider).state;
     return Scaffold(
       appBar: AppBar(
@@ -75,7 +78,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               textStyle: Theme.of(context).textTheme.headlineSmall,
             )),
       ),
-      body: Container(child: _pages[_selectedPageIndex]),
+      body: Column(
+        children: [
+          if (syncState == NotifierState.loading)
+            AnimatedOpacity(
+              opacity: 1.0,
+              duration: const Duration(milliseconds: 500),
+              child: Container(
+                width: double.infinity,
+                height: 40,
+                color: Colors.green[600],
+                child: Center(
+                    child: FadingText('Synchronizing Books',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.onPrimary))),
+              ),
+            ),
+          Container(child: _pages[_selectedPageIndex]),
+        ],
+      ),
       bottomNavigationBar: ValueListenableBuilder(
         valueListenable: hiding.visible,
         builder: (context, bool value, child) => AnimatedContainer(

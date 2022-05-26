@@ -11,6 +11,8 @@ enum NotifierState { initial, loading, loaded }
 
 class SyncProvider extends ChangeNotifier {
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? docs;
+  bool isSync = false;
+  int booksUpdated = 0;
   SyncProvider(this.userID) {
     print('sync provider constructor');
     Query<SyncStatus> syncRef = FirebaseFirestore.instance
@@ -30,7 +32,8 @@ class SyncProvider extends ChangeNotifier {
       if (event.docs.isNotEmpty) {
         // is a list with one element because I'm using limit 1
         final syncDoc = event.docs[0];
-        print(syncDoc.data());
+        final syncStatus = syncDoc.data();
+        booksUpdated = syncStatus.updatedBooks;
         notifyListeners();
       }
     });
@@ -44,7 +47,10 @@ class SyncProvider extends ChangeNotifier {
     print('syncHighlights -> $userID - $email - $password');
     _setState(NotifierState.loading);
     await _syncRepository.syncHighlights(userID, email, password);
-    _setState(NotifierState.loaded);
+    Future.delayed(Duration(seconds: 2), () {
+      print("Executed after 5 seconds");
+      _setState(NotifierState.loaded);
+    });
     // TODO Handle errors (if statusCode != 200?)
   }
 

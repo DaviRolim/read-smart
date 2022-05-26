@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/providers/sync_provider.dart';
+import 'package:read_smart/screens/home_screen.dart';
 
 class SyncHighlightsScreen extends ConsumerStatefulWidget {
   const SyncHighlightsScreen({Key? key}) : super(key: key);
@@ -41,40 +42,50 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
     return syncState == NotifierState.loading
         ? CircularProgressIndicator()
         : Center(
-            child: Card(
-              margin: EdgeInsets.all(20),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          key: ValueKey('email'),
-                          textInputAction: TextInputAction.next,
-                          textCapitalization: TextCapitalization.none,
-                          autocorrect: false,
-                          enableSuggestions: false,
-                          validator: (value) {
-                            // Return string if error and if ok return nothing
-                            if (value!.isEmpty || !value.contains('@')) {
-                              return 'Please Enter a valid email address.';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(color: Colors.grey[300]),
-                          decoration: InputDecoration(
-                              labelText: 'E-mail',
-                              labelStyle: TextStyle(
-                                  color: Colors.grey[600], fontSize: 14)),
-                          onSaved: (value) {
-                            _userEmail = value!;
-                          },
-                        ),
-                        Row(children: [
-                          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(right: 10),
+                          width: 45,
+                          height: 45,
+                          child: Image.asset('assets/icons/amazon-logo.png')),
+                      SizedBox(height: 15),
+                      Text('Sync Using Amazon Credentials',
+                          style: Theme.of(context).textTheme.titleLarge),
+                      SizedBox(height: 15),
+                      Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: TextFormField(
+                              key: ValueKey('email'),
+                              textInputAction: TextInputAction.next,
+                              textCapitalization: TextCapitalization.none,
+                              autocorrect: false,
+                              enableSuggestions: false,
+                              validator: (value) {
+                                // Return string if error and if ok return nothing
+                                if (value!.isEmpty || !value.contains('@')) {
+                                  return 'Please Enter a valid email address.';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                labelText: 'E-mail',
+                              ),
+                              onSaved: (value) {
+                                _userEmail = value!;
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
                             child: TextFormField(
                               key: ValueKey('password'),
                               textInputAction: TextInputAction.next,
@@ -86,11 +97,8 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
                                 }
                                 return null;
                               },
-                              style: TextStyle(color: Colors.grey[300]),
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                labelStyle: TextStyle(
-                                    color: Colors.grey[600], fontSize: 14),
                                 suffixIcon: IconButton(
                                   onPressed: () {
                                     setState(() {
@@ -111,20 +119,23 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
                                 _userPassword = value!;
                               },
                             ),
-                          ),
-                        ]),
-                         SizedBox(height: 12),
-                  ElevatedButton(
-                   child: Text('Sync Highlights'), 
-                   onPressed: () {
-                     bool isValid = _submissionIsValid();
-                     if (isValid) {
-                      ref.read(SyncProvider.syncProvider).syncHighlights(_userEmail, _userPassword);
-                     }
-                   }
-                  ),
-                      ],
-                    ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 25),
+                      ElevatedButton(
+                          child: Text('Sync Highlights'),
+                          onPressed: () {
+                            bool isValid = _submissionIsValid();
+                            if (isValid) {
+                              ref
+                                  .read(SyncProvider.syncProvider)
+                                  .syncHighlights(_userEmail, _userPassword);
+                              Navigator.of(context)
+                                  .pushReplacementNamed(HomeScreen.routeName);
+                            }
+                          }),
+                    ],
                   ),
                 ),
               ),
