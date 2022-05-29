@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:read_smart/helpers/custom_page_route.dart';
+import 'package:read_smart/screens/books_screen.dart';
 import 'package:read_smart/screens/daily_review_screen.dart';
 import 'package:read_smart/widgets/home/headline_card.dart';
 import 'package:read_smart/widgets/home/section_card.dart';
 
 import '../../providers/daily_review_provider.dart';
+import '../../providers/highlights_provider.dart';
 
 class HomeContent extends ConsumerStatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -52,7 +54,15 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                 ontap: () => Navigator.of(context)
                     .push(CustomPageRoute(DailyReviewScreen()))),
             SizedBox(height: 18.0),
-            SectionCard(title: 'Books'),
+            SectionCard(
+              title: 'Books',
+              ontap: () {
+                ref
+                    .read(HighlightsProvider.highlightsProvider)
+                    .fetchHighlights();
+                Navigator.of(context).pushNamed(BooksScreen.routeName);
+              },
+            ),
             SizedBox(height: 5.0),
             SectionCard(title: 'Summaries'),
           ],
@@ -82,7 +92,10 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             SizedBox(width: 5),
             Text(
               todayProgressText ?? '',
-              style: Theme.of(context).textTheme.bodyMedium!.apply(color: Theme.of(context).colorScheme.background),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .apply(color: Theme.of(context).colorScheme.background),
             ),
           ],
         ),

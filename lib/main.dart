@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/providers/theme.dart';
 import 'package:read_smart/screens/auth_screen.dart';
+import 'package:read_smart/screens/books_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
 
@@ -54,10 +55,13 @@ class ReadSmartApp extends ConsumerWidget {
                       theme: theme.light(settings.value.sourceColor),
                       themeMode: theme.themeMode(),
                       darkTheme: theme.dark(settings.value.sourceColor),
-                      home: auth.user != null ? HomeScreen() : LandingScreen(), 
+                      home: auth.user != null ? HomeScreen() : LandingScreen(),
                       routes: {
-                        AuthScreen.routeName: (ctx) => AuthScreen(isLogin: false,),
+                        AuthScreen.routeName: (ctx) => AuthScreen(
+                              isLogin: false,
+                            ),
                         HomeScreen.routeName: (ctx) => HomeScreen(),
+                        BooksScreen.routeName: (ctx) => BooksScreen(),
                         // MainScreen.routeName: (ctx) => MainScreen(),
                       },
                     );

@@ -10,6 +10,10 @@ import '../models/Book.dart';
 class HighlightRepository {
   final userColl = FirebaseFirestore.instance.collection('users');
 
+  // TODO create an interface IBookRepository
+  // Create a class to extend this interface BookRepository
+  // this BookRepository will make use of -> BookRemoteRepository and BookLocalRepository
+  // Start with test, LETS DO THIS.
   Query<Book> getUserBooks(String userID) {
     final Query<Book> booksColl = userColl
         .doc(userID)
@@ -21,8 +25,9 @@ class HighlightRepository {
               return Book.fromJson(bookJson);
             },
             toFirestore: (Book book, _) => book.toJson())
-        .orderBy("lastAccessed", descending: true)
-        .limit(4);
+        .orderBy("lastAccessed",
+            descending:
+                true); // TODO - Warning. Without limit this will be expensive to run this many times for each user. Later I should save everything local and only update when the user sync.
     return booksColl;
   }
 

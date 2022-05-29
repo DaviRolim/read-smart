@@ -3,19 +3,19 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class SectionCard extends StatelessWidget {
-  const SectionCard({required this.title,  this.ontap, Key? key}) : super(key: key);
+  const SectionCard({required this.title, this.ontap, Key? key})
+      : super(key: key);
 
   final String title;
-  final Function? ontap;
+  final VoidCallback? ontap;
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       height: MediaQuery.of(context).size.height * 0.12,
       width: double.infinity,
       child: InkWell(
-        onTap: () => ontap,
+        onTap: ontap,
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 1),
@@ -33,6 +33,6 @@ class SectionCard extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }
+
