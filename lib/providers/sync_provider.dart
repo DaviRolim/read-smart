@@ -3,7 +3,7 @@ import 'package:read_smart/models/Failure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/auth_provider.dart';
-import 'package:read_smart/repository/sync_repository.dart';
+import 'package:read_smart/repository/book_repository.dart';
 
 import '../models/SyncStatus.dart';
 
@@ -39,14 +39,14 @@ class SyncProvider extends ChangeNotifier {
     });
   }
   final String userID;
-  final _syncRepository = SyncRepository();
+  final _bookRepository = BookRepository();
   NotifierState _state = NotifierState.initial;
   NotifierState get state => _state;
 
-  void syncHighlights(email, password) async {
-    print('syncHighlights -> $userID - $email - $password');
+  void syncBooks(email, password) async {
+    print('syngBooks -> $userID - $email - $password');
     _setState(NotifierState.loading);
-    await _syncRepository.syncHighlights(userID, email, password);
+    await _bookRepository.updateBooks(userID, email, password);
     Future.delayed(Duration(seconds: 2), () {
       print("Executed after 5 seconds");
       _setState(NotifierState.loaded);

@@ -1,16 +1,10 @@
-import 'package:badges/badges.dart';
-import 'package:dartz/dartz.dart';
 import 'package:read_smart/helpers/custom_page_route.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
 import 'package:read_smart/models/failure.dart';
 import 'package:read_smart/providers/auth_provider.dart';
-import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_smart/screens/home_screen.dart';
-import 'package:read_smart/screens/sync_highlights_screen.dart';
-import 'package:read_smart/widgets/auth/auth_form.dart';
 
 class LandingScreen extends ConsumerStatefulWidget {
   const LandingScreen({Key? key});
@@ -29,18 +23,6 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
   @override
   void initState() {
     _pages = [
-      // {
-      //   'page': HomeScreen(
-      //     controller: hiding.controller,
-      //   ),
-      // },
-      // {
-      //   'page': OrdersScreen(),
-      //   'appBarTitle': Text(
-      //     'Pedidos',
-      //     style: TextStyle(color: Colors.white),
-      //   ),
-      // },
       {
         'page': AuthScreen(isLogin: false,),
         'appBarTitle': Text(
@@ -48,13 +30,6 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
           style: TextStyle(color: Colors.white),
         ),
       },
-      // {
-      //   'page': ForSale(),
-      //   'title': 'algo pra colocar no appBar',
-      // },
-      // {
-      //   'page': CartScreen(),
-      // },
     ];
     super.initState();
   }
@@ -63,14 +38,6 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
   void dispose() {
     super.dispose();
   }
-
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
-  }
-
-  // final cartProvider = CartProvider.cartProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +71,7 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                   height: 40.0,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.of(context).push(CustomPageRoute(AuthForm(
-                      //   isLogin: false,
-                      // )));
-                      // ref.read(HighlightsProvider.highlightsProvider).fetchHighlghts();
-                      // Navigator.of(context).push(CustomPageRoute(HomeScreen()));
                       Navigator.of(context).push(CustomPageRoute(AuthScreen(isLogin: false)));
-                      // authProvider.signInWithGoogle();
-                      // authProvider.signOut();
-                      // Navigator.of(context).push(CustomPageRoute(SyncHighlightsScreen()));
                     },
                     child: Text(
                       'Get started',
@@ -125,7 +84,6 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(20.0),
                       ),
-                      // padding: MaterialStateProperty.all(EdgeInsets.all(50)),
                       textStyle: TextStyle(fontSize: 18),
                     ),
                   ),

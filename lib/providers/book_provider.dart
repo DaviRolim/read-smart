@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/auth_provider.dart';
-import 'package:read_smart/repository/highlights_repository.dart';
+import 'package:read_smart/repository/book_repository.dart';
 import 'dart:async';
 
 import '../models/Book.dart';
@@ -12,18 +13,18 @@ import '../models/Failure.dart';
 import 'notifier_enum.dart';
 
 // TODO change name to BooksProvider
-class HighlightsProvider extends ChangeNotifier {
-  final _highlightRepository = HighlightRepository();
-  List<Book>? _highlights;
-  List<Book>? _filteredHighlights;
-  List<Book> get highlights => _highlights ?? [];
-  List<Book> get filteredHighlights => _filteredHighlights ?? [];
+class BooksProvider extends ChangeNotifier {
+  final _bookRepository = BookRepository();
+  List<Book>? _books;
+  List<Book>? _filteredBooks;
+  List<Book> get highlights => _books ?? [];
+  List<Book> get filteredBooks => _filteredBooks ?? [];
   Timer? _debounce;
   bool? _isLoading;
   bool get isLoading => _isLoading ?? false;
 
   final String userID;
-  HighlightsProvider(this.userID);
+  BooksProvider(this.userID);
 
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -31,12 +32,12 @@ class HighlightsProvider extends ChangeNotifier {
   }
 
   void resetFilter() {
-    _filteredHighlights = _highlights;
+    _filteredBooks = _books;
     notifyListeners();
   }
 
   void sortBooks() {
-    _filteredHighlights!.sort((a, b) => a.title.compareTo(b.title));
+    _filteredBooks!.sort((a, b) => a.title.compareTo(b.title));
     notifyListeners();
   }
 
@@ -44,9 +45,9 @@ class HighlightsProvider extends ChangeNotifier {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () {
       if (query.isEmpty) {
-        _filteredHighlights = _highlights;
+        _filteredBooks = _books;
       } else {
-        _filteredHighlights = _highlights!
+        _filteredBooks = _books!
             .where((book) =>
                 book.title.toLowerCase().contains(query.toLowerCase()))
             .toList();
@@ -55,18 +56,22 @@ class HighlightsProvider extends ChangeNotifier {
     });
   }
 
-  void fetchHighlights() {
-    Query<Book> booksRef = _highlightRepository.getUserBooks(userID);
-    booksRef.snapshots().listen((event) {
-      _highlights = event.docs.map((e) => e.data()).toList();
-      _filteredHighlights = _highlights;
-      notifyListeners();
-    });
+  void loadBooks() async {
+    var bookBox = Hive.box<Book>('books');
+    print(bookBox.values.length);
+    if (bookBox.values.length > 0) {
+      print('Getting values from the box');
+      _books = bookBox.values.toList();
+      _filteredBooks = _books;
+    } else {
+      // TODO
+      print('no books in local database, sync first');
+    }
+    notifyListeners();
   }
 
-  static final highlightsProvider =
-      ChangeNotifierProvider<HighlightsProvider>((ref) {
+  static final booksProvider = ChangeNotifierProvider<BooksProvider>((ref) {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;
-    return HighlightsProvider(userID);
+    return BooksProvider(userID);
   });
 }

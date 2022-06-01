@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/Book.dart';
-import 'books_screen.dart';
 
 class HighlightScreen extends StatelessWidget {
   final Book book;
