@@ -55,12 +55,8 @@ class BookRepository {
       final _books = event.docs.map((e) => e.data()).toList();
       if (_books.isNotEmpty) {
         var bookBox = Hive.box<Book>('books');
-        print('chegou aqui');
-        print(bookBox.values.length);
         bookBox.clear();
-        print(bookBox.values.length);
         bookBox.addAll(_books);
-        print(bookBox.values.length);
       }
     });
   }

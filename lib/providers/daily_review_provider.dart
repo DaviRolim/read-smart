@@ -43,10 +43,8 @@ class DailyReviewProvider extends ChangeNotifier {
   }
 
   void fetchUserStreak() async {
-    // _setState(NotifierState.loading);
-    final streak = await _userStreakRepository.getUserStreak(userID);
-    _currentStreak = streak['streak'];
-    // _setState(NotifierState.loaded);
+    final streak = _userStreakRepository.getUserStreakLocal();
+    _currentStreak = streak;
     notifyListeners();
   }
 
@@ -54,7 +52,7 @@ class DailyReviewProvider extends ChangeNotifier {
     if (!dailyReview.finished) {
       print('SalvandoReview');
       final streak = await _userStreakRepository.increaseUserStreak(userID);
-      _currentStreak = streak['streak'];
+      _currentStreak = streak;
       // Assuming everything works correctly (TODO add exception cases)
       _dailyReview?.setFinished(true);
       notifyListeners();
