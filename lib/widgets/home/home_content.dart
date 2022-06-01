@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:read_smart/helpers/custom_page_route.dart';
+import 'package:read_smart/providers/book_provider.dart';
 import 'package:read_smart/screens/books_screen.dart';
 import 'package:read_smart/screens/daily_review_screen.dart';
 import 'package:read_smart/widgets/home/headline_card.dart';
 import 'package:read_smart/widgets/home/section_card.dart';
 
 import '../../providers/daily_review_provider.dart';
-import '../../providers/highlights_provider.dart';
 
 class HomeContent extends ConsumerStatefulWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -57,9 +57,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             SectionCard(
               title: 'Books',
               ontap: () {
-                ref
-                    .read(HighlightsProvider.highlightsProvider)
-                    .fetchHighlights();
+                ref.read(BooksProvider.booksProvider).loadBooks();
                 Navigator.of(context).pushNamed(BooksScreen.routeName);
               },
             ),

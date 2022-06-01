@@ -2,19 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
 import 'package:read_smart/models/DailyReview.dart';
 
 import '../models/Book.dart';
 
-class HighlightRepository {
+class BookRepository {
   final userColl = FirebaseFirestore.instance.collection('users');
 
-  // TODO create an interface IBookRepository
-  // Create a class to extend this interface BookRepository
-  // this BookRepository will make use of -> BookRemoteRepository and BookLocalRepository
-  // Start with test, LETS DO THIS.
-  Query<Book> getUserBooks(String userID) {
+  Query<Book> _getBooksRemote(String userID) {
     final Query<Book> booksColl = userColl
         .doc(userID)
         .collection('books')
@@ -25,13 +21,10 @@ class HighlightRepository {
               return Book.fromJson(bookJson);
             },
             toFirestore: (Book book, _) => book.toJson())
-        .orderBy("lastAccessed",
-            descending:
-                true); // TODO - Warning. Without limit this will be expensive to run this many times for each user. Later I should save everything local and only update when the user sync.
+        .orderBy("lastAccessed", descending: true);
     return booksColl;
   }
 
-  // I'll be using the lambda API to access this functionality
   Future<DailyReview> getDailyReview(String userID) async {
     var url = Uri.parse(
         'https://wyzvtfm3nrfmw3ycyobn5u6fum0wqyqk.lambda-url.us-east-1.on.aws' +
@@ -44,5 +37,27 @@ class HighlightRepository {
     final body =
         json.decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
     return DailyReview.fromJson(body);
+  }
+
+  Future<void> _syncBooks(String username, email, password) async {
+    var url = Uri.parse(
+        'https://ij63trl27tlpgkvas2bc2twvvm0suzgk.lambda-url.us-east-1.on.aws');
+    await http.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(
+            {'username': username, 'email': email, 'password': password}));
+  }
+
+  Future<void> updateBooks(String username, email, password) async {
+    await _syncBooks(username, email, password);
+    final booksRef = _getBooksRemote(username);
+    booksRef.snapshots().listen((event) {
+      final _books = event.docs.map((e) => e.data()).toList();
+      if (_books.isNotEmpty) {
+        var bookBox = Hive.box<Book>('books');
+        bookBox.clear();
+        bookBox.addAll(_books);
+      }
+    });
   }
 }

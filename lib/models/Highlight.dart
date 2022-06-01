@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
+part 'Highlight.g.dart';
 
 class HighlightExtended {
   final String title;
@@ -33,8 +35,11 @@ class HighlightExtended {
   }
 }
 
+@HiveType(typeId: 1)
 class Highlight {
+  @HiveField(0)
   final String text;
+  @HiveField(1)
   final bool isFavorite;
 
   Highlight({required this.text, required this.isFavorite});
