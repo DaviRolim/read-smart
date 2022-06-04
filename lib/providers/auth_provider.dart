@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:read_smart/models/Failure.dart';
 import 'package:read_smart/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/Failure.dart';
+import '../core/error/failures.dart';
 import 'notifier_enum.dart';
 
 class AuthProvider extends ChangeNotifier {

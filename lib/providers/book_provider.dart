@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
-import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,6 @@ import 'package:read_smart/repository/book_repository.dart';
 import 'dart:async';
 
 import '../models/Book.dart';
-import '../models/Failure.dart';
 import 'notifier_enum.dart';
 
 // TODO change name to BooksProvider

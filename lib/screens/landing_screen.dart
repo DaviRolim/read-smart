@@ -1,6 +1,5 @@
 import 'package:read_smart/helpers/custom_page_route.dart';
 import 'package:read_smart/helpers/hider_navbar.dart';
-import 'package:read_smart/models/failure.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,9 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
   void initState() {
     _pages = [
       {
-        'page': AuthScreen(isLogin: false,),
+        'page': AuthScreen(
+          isLogin: false,
+        ),
         'appBarTitle': Text(
           'Entrar',
           style: TextStyle(color: Colors.white),
@@ -71,7 +72,8 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                   height: 40.0,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(CustomPageRoute(AuthScreen(isLogin: false)));
+                      Navigator.of(context)
+                          .push(CustomPageRoute(AuthScreen(isLogin: false)));
                     },
                     child: Text(
                       'Get started',
@@ -96,7 +98,10 @@ class _HomeScreenState extends ConsumerState<LandingScreen> {
                   },
                   child: Text(
                     'Sign in as an existing user',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.white54),
                   ),
                 )
               ],
