@@ -1,11 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 import 'package:read_smart/models/Highlight.dart';
 
+part 'Book.g.dart';
+
+@HiveType(typeId: 2)
 class Book {
+  @HiveField(0)
   final String title;
+  @HiveField(1)
   final String author;
+  @HiveField(2)
   final String imageURL;
-  final Timestamp lastAccessed;
+  @HiveField(3)
   final List<Highlight> highlights;
 
   Book({
@@ -13,7 +20,6 @@ class Book {
     required this.author,
     required this.imageURL,
     required this.highlights,
-    required this.lastAccessed,
   });
 
   factory Book.fromJson(Map<String, dynamic>? data) {
@@ -27,7 +33,6 @@ class Book {
       highlights: highlights,
       author: data['author'],
       imageURL: data['imageURL'],
-      lastAccessed: data['lastAccessed'],
     );
   }
 

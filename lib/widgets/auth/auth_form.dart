@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:read_smart/models/failure.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/repository/auth_repository.dart';

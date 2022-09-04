@@ -11,6 +11,7 @@ import 'package:read_smart/widgets/dailyreview/done_page.dart';
 import 'package:read_smart/widgets/dailyreview/highlight_container.dart';
 import 'package:read_smart/widgets/shared/next_page_button.dart';
 
+import '../providers/notifier_enum.dart';
 import '../widgets/dailyreview/daily_review_page.dart';
 
 class DailyReviewScreen extends ConsumerStatefulWidget {
@@ -55,9 +56,11 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
   Widget build(BuildContext context) {
     final DailyReview? dailyReview =
         ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview;
+    final NotifierState state =
+        ref.watch(DailyReviewProvider.dailyReviewProvider).state;
     final int _selectedPageIndex =
         ref.watch(DailyReviewProvider.dailyReviewProvider).currentIndex;
-    return dailyReview!.highlights.length > 0
+    return state == NotifierState.loaded
         ? Scaffold(
             appBar: DailyReviewAppBar(),
             body: SingleChildScrollView(
@@ -68,7 +71,7 @@ class _DailyReviewScreenState extends ConsumerState<DailyReviewScreen> {
                   children: [
                     LinearProgressIndicator(
                       value: ((_selectedPageIndex + 1) /
-                          dailyReview.highlights.length),
+                          dailyReview!.highlights.length),
                     ),
                     SizedBox(
                       height: 30,

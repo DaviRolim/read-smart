@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:read_smart/providers/highlights_provider.dart';
 import 'package:read_smart/providers/sync_provider.dart';
 import 'package:read_smart/screens/home_screen.dart';
 
@@ -124,13 +123,13 @@ class _SyncHighlightsScreenState extends ConsumerState<SyncHighlightsScreen> {
                       ),
                       SizedBox(height: 25),
                       ElevatedButton(
-                          child: Text('Sync Highlights'),
+                          child: Text('Sync Books'),
                           onPressed: () {
                             bool isValid = _submissionIsValid();
                             if (isValid) {
                               ref
                                   .read(SyncProvider.syncProvider)
-                                  .syncHighlights(_userEmail, _userPassword);
+                                  .syncBooks(_userEmail, _userPassword);
                               Navigator.of(context)
                                   .pushReplacementNamed(HomeScreen.routeName);
                             }

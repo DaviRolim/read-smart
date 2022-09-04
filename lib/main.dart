@@ -2,17 +2,27 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:read_smart/providers/auth_provider.dart';
 import 'package:read_smart/providers/theme.dart';
 import 'package:read_smart/screens/auth_screen.dart';
 import 'package:read_smart/screens/books_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'firebase_options.dart';
+import 'models/Book.dart';
+import 'models/Highlight.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(HighlightAdapter());
+  Hive.registerAdapter(BookAdapter());
+  Future.wait([Hive.openBox<Book>('books'), Hive.openBox('userInfo')]);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,9 +30,14 @@ void main() async {
   runApp(ProviderScope(child: ReadSmartApp()));
 }
 
-class ReadSmartApp extends ConsumerWidget {
+class ReadSmartApp extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ReadSmartApp> createState() => _ReadSmartAppState();
+}
+
+class _ReadSmartAppState extends ConsumerState<ReadSmartApp> {
+  @override
+  Widget build(BuildContext context) {
     final settings = ValueNotifier(ThemeSettings(
       sourceColor: const Color(0xff8a19e6), // Replace this color
       themeMode: ThemeMode.system,
@@ -67,5 +82,11 @@ class ReadSmartApp extends ConsumerWidget {
                     );
                   }),
             )));
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }

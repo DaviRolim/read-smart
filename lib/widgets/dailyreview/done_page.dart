@@ -33,6 +33,8 @@ class _DonePageState extends ConsumerState<DonePage>
 
   @override
   Widget build(BuildContext context) {
+    final currentStreak =
+        ref.read(DailyReviewProvider.dailyReviewProvider).currentStreak;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -73,8 +75,9 @@ class _DonePageState extends ConsumerState<DonePage>
                               .textTheme
                               .bodyMedium!
                               .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimaryContainer),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer),
                         ),
                       ],
                     ),
@@ -99,11 +102,8 @@ class _DonePageState extends ConsumerState<DonePage>
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
-                    ref
-                            .read(DailyReviewProvider.dailyReviewProvider)
-                            .currentStreak
-                            .toString() +
-                        ' days',
+                    currentStreak.toString() +
+                        (currentStreak! > 1 ? ' days' : ' day'),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!

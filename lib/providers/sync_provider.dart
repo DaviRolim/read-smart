@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:read_smart/models/Failure.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:read_smart/providers/auth_provider.dart';
-import 'package:read_smart/repository/sync_repository.dart';
+import 'package:read_smart/repository/book_repository.dart';
 
 import '../models/SyncStatus.dart';
 
@@ -14,7 +13,6 @@ class SyncProvider extends ChangeNotifier {
   bool isSync = false;
   int booksUpdated = 0;
   SyncProvider(this.userID) {
-    print('sync provider constructor');
     Query<SyncStatus> syncRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
@@ -28,7 +26,6 @@ class SyncProvider extends ChangeNotifier {
         .limit(1);
 
     syncRef.snapshots().listen((event) {
-      print(event.docs);
       if (event.docs.isNotEmpty) {
         // is a list with one element because I'm using limit 1
         final syncDoc = event.docs[0];
@@ -39,16 +36,14 @@ class SyncProvider extends ChangeNotifier {
     });
   }
   final String userID;
-  final _syncRepository = SyncRepository();
+  final _bookRepository = BookRepository();
   NotifierState _state = NotifierState.initial;
   NotifierState get state => _state;
 
-  void syncHighlights(email, password) async {
-    print('syncHighlights -> $userID - $email - $password');
+  void syncBooks(email, password) async {
     _setState(NotifierState.loading);
-    await _syncRepository.syncHighlights(userID, email, password);
+    await _bookRepository.updateBooks(userID, email, password);
     Future.delayed(Duration(seconds: 2), () {
-      print("Executed after 5 seconds");
       _setState(NotifierState.loaded);
     });
     // TODO Handle errors (if statusCode != 200?)

@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:read_smart/providers/book_provider.dart';
 
 import '../helpers/custom_page_route.dart';
 import '../models/Book.dart';
-import '../providers/highlights_provider.dart';
-import 'HighlightScreen.dart';
+import 'highlight_screen.dart';
 import 'home_screen.dart';
 
 class BooksScreen extends ConsumerStatefulWidget {
@@ -23,6 +23,12 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
   final TextEditingController searchController = TextEditingController();
 
   @override
+  void initState() {
+    ref.read(BooksProvider.booksProvider).loadBooks();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     searchController.dispose();
     super.dispose();
@@ -30,7 +36,7 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    books = ref.watch(HighlightsProvider.highlightsProvider).filteredHighlights;
+    books = ref.watch(BooksProvider.booksProvider).filteredBooks;
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
@@ -69,16 +75,14 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
                                 borderRadius: BorderRadius.circular(20))
                             //fillColor: Theme.of(context).colorScheme.secondary,
                             ),
-                        onChanged: ref
-                            .read(HighlightsProvider.highlightsProvider)
-                            .filterBooks,
+                        onChanged:
+                            ref.read(BooksProvider.booksProvider).filterBooks,
                       ),
                     ),
                     IconButton(
                         icon: Icon(Icons.sort),
-                        onPressed: () => ref
-                            .read(HighlightsProvider.highlightsProvider)
-                            .sortBooks())
+                        onPressed: () =>
+                            ref.read(BooksProvider.booksProvider).sortBooks())
                   ],
                 ),
               ),
