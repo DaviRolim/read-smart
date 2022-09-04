@@ -51,12 +51,13 @@ class BookRepository {
   Future<void> updateBooks(String username, email, password) async {
     await _syncBooks(username, email, password);
     final booksRef = _getBooksRemote(username);
-    booksRef.snapshots().listen((event) {
+    booksRef.snapshots().listen((event) async {
       final _books = event.docs.map((e) => e.data()).toList();
       if (_books.isNotEmpty) {
         var bookBox = Hive.box<Book>('books');
-        bookBox.clear();
-        bookBox.addAll(_books);
+        await bookBox.clear();
+        await bookBox.addAll(_books);
+        print(bookBox.values.length);
       }
     });
   }

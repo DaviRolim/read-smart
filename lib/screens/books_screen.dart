@@ -23,6 +23,12 @@ class _BooksScreenState extends ConsumerState<BooksScreen> {
   final TextEditingController searchController = TextEditingController();
 
   @override
+  void initState() {
+    ref.read(BooksProvider.booksProvider).loadBooks();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     searchController.dispose();
     super.dispose();

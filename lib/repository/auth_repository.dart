@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:read_smart/models/Failure.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +16,6 @@ class AuthRepository {
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     var userAuthenticated = false;
-    print(email + ' - ' + password);
     try {
       UserCredential userCredential =
           await authInstance.signInWithEmailAndPassword(
@@ -26,11 +24,11 @@ class AuthRepository {
       saveAuthInfoLocalStorage(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        throw Failure('User not found!');
+        throw Exception('User not found!');
       } else if (e.code == 'wrong-password') {
-        throw Failure('Wrong password');
+        throw Exception('Wrong password');
       } else {
-        throw Failure('Try again later');
+        throw Exception('Try again later');
       }
     }
     return userAuthenticated;
@@ -45,7 +43,7 @@ class AuthRepository {
       // prefs.remove('authInfo');
       prefs.clear();
     } catch (e) {
-      throw Failure('Error signing Out');
+      throw Exception('Error signing Out');
     }
     return userAuthenticated;
   }
@@ -69,12 +67,12 @@ class AuthRepository {
       saveAuthInfoLocalStorage(email, password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        throw Failure('weak password');
+        throw Exception('weak password');
       } else if (e.code == 'email-already-in-use') {
-        throw Failure('Email already in use');
+        throw Exception('Email already in use');
       }
     } catch (e) {
-      throw Failure('A problem occurred try again later');
+      throw Exception('A problem occurred try again later');
     }
     return userAuthenticated;
   }
@@ -105,7 +103,6 @@ class AuthRepository {
         idToken: googleAuthentication.idToken,
         accessToken: googleAuthentication.accessToken,
       );
-      print(authCredential);
 
       await authInstance.signInWithCredential(authCredential);
       return true;

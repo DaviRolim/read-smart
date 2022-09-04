@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:read_smart/models/Failure.dart';
 import 'package:read_smart/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/Failure.dart';
+import '../core/error/failures.dart';
 import 'notifier_enum.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -33,21 +32,18 @@ class AuthProvider extends ChangeNotifier {
       _authRepository.signOut();
       notifyListeners();
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
   }
 
   Future<Unit> signInWithEmailAndPassword(String email, String password) async {
     _setState(NotifierState.loading);
-    print(email + password);
     try {
       await _authRepository.signInWithEmailAndPassword(
         email,
         password,
       );
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
 
@@ -60,7 +56,6 @@ class AuthProvider extends ChangeNotifier {
     try {
       await _authRepository.signInWithGoogle();
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
     _setState(NotifierState.loaded);

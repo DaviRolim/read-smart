@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
-import 'package:read_smart/models/Failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,10 +8,8 @@ import 'package:read_smart/repository/book_repository.dart';
 import 'dart:async';
 
 import '../models/Book.dart';
-import '../models/Failure.dart';
 import 'notifier_enum.dart';
 
-// TODO change name to BooksProvider
 class BooksProvider extends ChangeNotifier {
   final _bookRepository = BookRepository();
   List<Book>? _books;
@@ -58,9 +55,7 @@ class BooksProvider extends ChangeNotifier {
 
   void loadBooks() async {
     var bookBox = Hive.box<Book>('books');
-    print(bookBox.values.length);
     if (bookBox.values.length > 0) {
-      print('Getting values from the box');
       _books = bookBox.values.toList();
       _filteredBooks = _books;
     } else {
@@ -70,7 +65,8 @@ class BooksProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  static final booksProvider = ChangeNotifierProvider<BooksProvider>((ref) {
+  static final booksProvider =
+      ChangeNotifierProvider.autoDispose<BooksProvider>((ref) {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;
     return BooksProvider(userID);
   });
