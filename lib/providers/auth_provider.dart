@@ -32,21 +32,18 @@ class AuthProvider extends ChangeNotifier {
       _authRepository.signOut();
       notifyListeners();
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
   }
 
   Future<Unit> signInWithEmailAndPassword(String email, String password) async {
     _setState(NotifierState.loading);
-    print(email + password);
     try {
       await _authRepository.signInWithEmailAndPassword(
         email,
         password,
       );
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
 
@@ -59,7 +56,6 @@ class AuthProvider extends ChangeNotifier {
     try {
       await _authRepository.signInWithGoogle();
     } on Failure catch (e) {
-      print(e.toString());
       throw e;
     }
     _setState(NotifierState.loaded);

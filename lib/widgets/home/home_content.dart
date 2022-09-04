@@ -20,14 +20,7 @@ class HomeContent extends ConsumerStatefulWidget {
 class _HomeContentState extends ConsumerState<HomeContent> {
   @override
   void initState() {
-    // TODO Should Emit the HomeContentInitEvent
-    // and the provider would run the code below
-    final dailyReviewProvider =
-        ref.read(DailyReviewProvider.dailyReviewProvider);
-    if (dailyReviewProvider.dailyReview.highlights.isEmpty) {
-      ref.read(DailyReviewProvider.dailyReviewProvider).getDailyReview();
-    }
-    ref.read(DailyReviewProvider.dailyReviewProvider).fetchUserStreak();
+    ref.read(DailyReviewProvider.dailyReviewProvider).homeContentInit();
     super.initState();
   }
 
@@ -37,7 +30,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
-    final todayProgressText =
+    final todayProgressText = 
         ref.watch(DailyReviewProvider.dailyReviewProvider).progressText;
     final finishedReview =
         ref.read(DailyReviewProvider.dailyReviewProvider).dailyReview.finished;
@@ -57,7 +50,6 @@ class _HomeContentState extends ConsumerState<HomeContent> {
             SectionCard(
               title: 'Books',
               ontap: () {
-                ref.read(BooksProvider.booksProvider).loadBooks();
                 Navigator.of(context).pushNamed(BooksScreen.routeName);
               },
             ),

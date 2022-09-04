@@ -16,7 +16,6 @@ class AuthRepository {
 
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
     var userAuthenticated = false;
-    print(email + ' - ' + password);
     try {
       UserCredential userCredential =
           await authInstance.signInWithEmailAndPassword(
@@ -104,7 +103,6 @@ class AuthRepository {
         idToken: googleAuthentication.idToken,
         accessToken: googleAuthentication.accessToken,
       );
-      print(authCredential);
 
       await authInstance.signInWithCredential(authCredential);
       return true;

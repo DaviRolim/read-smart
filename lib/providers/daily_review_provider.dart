@@ -37,19 +37,18 @@ class DailyReviewProvider extends ChangeNotifier {
   }
 
   Future<void> getDailyReview() async {
+    // _setState(NotifierState.loading);
     _dailyReview = await _bookRepository.getDailyReview(userID);
-    notifyListeners();
+    // _setState(NotifierState.loaded);
   }
 
-  void fetchUserStreak() async {
+  void fetchUserStreak() {
     final streak = _userStreakRepository.getUserStreakLocal();
     _currentStreak = streak;
-    notifyListeners();
   }
 
   void finishedDailyReview() async {
     if (!dailyReview.finished) {
-      print('SalvandoReview');
       final streak = await _userStreakRepository.increaseUserStreak(userID);
       _currentStreak = streak;
       // Assuming everything works correctly (TODO add exception cases)
@@ -76,4 +75,12 @@ class DailyReviewProvider extends ChangeNotifier {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;
     return DailyReviewProvider(userID);
   });
+
+  void homeContentInit() async {
+    if (dailyReview.highlights.isEmpty) {
+      await getDailyReview();
+    }
+    fetchUserStreak();
+    notifyListeners();
+  }
 }

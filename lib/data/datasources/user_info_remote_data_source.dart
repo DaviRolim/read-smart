@@ -3,6 +3,8 @@ import 'dart:convert' as convert;
 
 import 'package:http/http.dart' as http;
 
+import '../../core/error/exceptions.dart';
+
 class UserInfoRemoteDataSource {
   final http.Client client;
   UserInfoRemoteDataSource(this.client);
@@ -20,15 +22,22 @@ class UserInfoRemoteDataSource {
   }
 
   Future<int> getUserStreak(String userID) async {
-    var url = Uri.parse(
-        'https://p3guee5qz2p3hakt2laeyok7xe0swehi.lambda-url.us-east-1.on.aws' +
-            '/?id=' +
-            userID);
-    var response = await client.get(
-      url,
-      headers: {"Content-Type": "application/json"},
-    );
-    final resMap = convert.jsonDecode(response.body) as Map<String, dynamic>;
-    return resMap['streak'];
+    try {
+      var url = Uri.parse(
+          'https://p3guee5qz2p3hakt2laeyok7xe0swehi.lambda-url.us-east-1.on.aws' +
+              '/?id=' +
+              userID);
+      var response = await client.get(
+        url,
+        headers: {"Content-Type": "application/json"},
+      );
+      if (response.statusCode != 200) {
+        throw ServerException();
+      }
+      final resMap = convert.jsonDecode(response.body) as Map<String, dynamic>;
+      return resMap['streak'];
+    } catch (e) {
+      throw ServerException();
+    }
   }
 }

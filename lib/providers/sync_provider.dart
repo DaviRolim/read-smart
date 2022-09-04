@@ -13,7 +13,6 @@ class SyncProvider extends ChangeNotifier {
   bool isSync = false;
   int booksUpdated = 0;
   SyncProvider(this.userID) {
-    print('sync provider constructor');
     Query<SyncStatus> syncRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
@@ -27,7 +26,6 @@ class SyncProvider extends ChangeNotifier {
         .limit(1);
 
     syncRef.snapshots().listen((event) {
-      print(event.docs);
       if (event.docs.isNotEmpty) {
         // is a list with one element because I'm using limit 1
         final syncDoc = event.docs[0];
@@ -43,11 +41,9 @@ class SyncProvider extends ChangeNotifier {
   NotifierState get state => _state;
 
   void syncBooks(email, password) async {
-    print('syngBooks -> $userID - $email - $password');
     _setState(NotifierState.loading);
     await _bookRepository.updateBooks(userID, email, password);
     Future.delayed(Duration(seconds: 2), () {
-      print("Executed after 5 seconds");
       _setState(NotifierState.loaded);
     });
     // TODO Handle errors (if statusCode != 200?)

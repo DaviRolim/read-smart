@@ -21,8 +21,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HighlightAdapter());
   Hive.registerAdapter(BookAdapter());
-  await Hive.openBox<Book>('books');
-  await Hive.openBox('userInfo');
+  Future.wait([Hive.openBox<Book>('books'), Hive.openBox('userInfo')]);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -10,7 +10,6 @@ import 'dart:async';
 import '../models/Book.dart';
 import 'notifier_enum.dart';
 
-// TODO change name to BooksProvider
 class BooksProvider extends ChangeNotifier {
   final _bookRepository = BookRepository();
   List<Book>? _books;
@@ -56,9 +55,7 @@ class BooksProvider extends ChangeNotifier {
 
   void loadBooks() async {
     var bookBox = Hive.box<Book>('books');
-    print(bookBox.values.length);
     if (bookBox.values.length > 0) {
-      print('Getting values from the box');
       _books = bookBox.values.toList();
       _filteredBooks = _books;
     } else {
@@ -68,7 +65,8 @@ class BooksProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  static final booksProvider = ChangeNotifierProvider<BooksProvider>((ref) {
+  static final booksProvider =
+      ChangeNotifierProvider.autoDispose<BooksProvider>((ref) {
     final userID = ref.read(AuthProvider.authProvider).user!.uid;
     return BooksProvider(userID);
   });
