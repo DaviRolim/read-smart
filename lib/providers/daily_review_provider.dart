@@ -81,6 +81,7 @@ class DailyReviewProvider extends ChangeNotifier {
       await getDailyReview();
     }
     fetchUserStreak();
+    _setState(NotifierState.loaded);
     notifyListeners();
   }
 }

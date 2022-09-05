@@ -9,8 +9,6 @@ import 'package:read_smart/screens/auth_screen.dart';
 import 'package:read_smart/screens/books_screen.dart';
 import 'package:read_smart/screens/home_screen.dart';
 import 'package:read_smart/screens/landing_screen.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'firebase_options.dart';
 import 'models/Book.dart';
